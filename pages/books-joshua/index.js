@@ -4,9 +4,8 @@ export default function SubPage() {
   return (
     <div>
       <Head>
-        <title>Sub Page</title>
+        <title>Joshuas books</title>
       </Head>
-
       <main>
         <h1 className="text-4xl">
           You are in Joshua's Books.
