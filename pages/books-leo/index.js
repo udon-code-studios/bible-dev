@@ -9,7 +9,7 @@ export default function SubPage() {
 
       <main>
         <h1 className="text-4xl">
-          You are in Leo's Books.
+          You are in Leo's Books. Here's an edit in books-leo.
         </h1>
       </main>
     </div>
