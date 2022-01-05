@@ -9,7 +9,7 @@ export default function SubPage() {
 
       <main>
         <h1 className="text-4xl">
-          You are in a sub page.
+          You are in Joshua's Books.
         </h1>
       </main>
     </div>

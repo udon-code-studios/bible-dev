@@ -11,7 +11,10 @@ export default function Home() {
 
       <main>
         <h1 className="text-4xl">
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          Joshua's Books: <a href="/books-joshua">Click me!</a>
+        </h1>
+        <h1 className="text-4xl">
+          Leo's Books: <a href="/books-leo">Click me!</a>
         </h1>
       </main>
     </div>
