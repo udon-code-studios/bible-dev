@@ -32,3 +32,10 @@ yarn-error.log*
 
 # vercel
 .vercel
+<<<<<<< HEAD
+
+# replit
+.replit
+replit.nix
+=======
+>>>>>>> 2d20803ddde22e683bcb895ed37c8e90c8f370e0
