@@ -11,14 +11,7 @@ export default function Home() {
 
       <main>
         <h1 className="text-4xl">
-<<<<<<< HEAD
           Welcome to my house<a href="/sub-page">Next.js!</a>
-=======
-          Joshua's Books: <a href="/books-joshua">Click me!</a>
-        </h1>
-        <h1 className="text-4xl">
-          Leo's Books: <a href="/books-leo">Click me!</a>
->>>>>>> 2d20803ddde22e683bcb895ed37c8e90c8f370e0
         </h1>
       </main>
     </div>

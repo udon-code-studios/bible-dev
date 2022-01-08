@@ -1,37 +1,125 @@
 import Book from './book';
-
-var books = ["Genesis","Exodus","Leviticus","Numbers","Deuteronomy","Joshua","Judges","Ruth","1 Samuel","2 Samuel","1 Kings","2 Kings","1 Chronicles","2 Chronicles","Ezra","Nehemiah","Esther","Job","Psalm","Proverbs","Ecclesiastes","Song of Solomon","Isaiah","Jeremiah","Lamentations","Ezekiel","Daniel","Hosea","Joel","Amos","Obadiah","Jonah","Micah","Nahum","Habakkuk","Zephaniah","Haggai","Zechariah","Malachi","Matthew","Mark","Luke","John","Acts","Romans","1 Corinthians","2 Corinthians","Galatians","Ephesians","Philippians","Colossians","1 Thessalonians","2 Thessalonians","1 Timothy","2 Timothy","Titus","Philemon","Hebrews","James","1 Peter","2 Peter","1 John","2 John","3 John","Jude","Revelation"];
+import React, { useState, useRef, useEffect } from 'react';
 
 function insertEveryN (arr, token, n, fromEnd) {
+	// Clone the received array, so we don't mutate the
+	// original one. You can ignore this if you don't mind.
 
-    // Clone the received array, so we don't mutate the
-    // original one. You can ignore this if you don't mind.
+	let a = arr.slice(0);
+	
+	// Insert the <token> every <n> elements.
 
-    let a = arr.slice(0);
-    
-    // Insert the <token> every <n> elements.
+	let idx = fromEnd ? a.length - n : n;
 
-    let idx = fromEnd ? a.length - n : n;
+	while ((fromEnd ? idx >= 1 : idx <= a.length))
+	{
+			//a.splice(idx, 0, token);
 
-    while ((fromEnd ? idx >= 1 : idx <= a.length))
-    {
-        a.splice(idx, 0, token);
-        idx = (fromEnd  ? idx - n : idx + n + 1);
-    }
+			a.splice(idx, 0, <Spacer key = { 'spacer-' + idx.toString() }/>)
+			idx = (fromEnd  ? idx - n : idx + n + 1);
+	}
 
-    return a;
+	if (a[a.length - 1] === token) {
+		a.pop();
+	}
+	return a;
 };
-
-function Spacer() {
-	return <div className = 'width-full h64 bg-[url("/books-joshua/wood.jpg")] text-transparent overflow-hidden whitespace-nowrap'>deli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platterdeli platter</div>
+	
+class Spacer extends React.Component {
+	ref = React.createRef();
+	
+	render() {
+		setTimeout(() => {
+			if (this.ref.current && this.ref.current.className.includes('spine')) {
+				this.forceUpdate();
+			} else {
+			
+			}
+		}, 100);
+		const global = (() => {
+			try {
+				return window;
+			} catch {
+				return null;
+			}
+		})();
+		return <div className = 'width-full h64 bg-[url("/books-joshua/wood.jpg")] text-transparent overflow-hidden whitespace-nowrap' ref = { this.ref }>{ 'p'.repeat(global ? global.innerWidth / 3 : 500) }</div>
+	}
 }
 
-export default function Shelf () {
-	return (
-		<div className = 'bg-[url("/books-joshua/wood.jpg")] w-10/12 p-4 text-white'>
-			<div className = 'h-full bg-[url("/books-joshua/dark-wood.jpg")] flex items-end justify-center flex-wrap'>
-				{ insertEveryN(books.map(book => <Book name = { book }/>), <Spacer/>, 9, false) }
+export default class Shelf extends React.Component {
+	constructor(props) {
+		super(props);
+		const global = (() => {
+			try {
+				return window;
+			} catch {
+				return null;
+			}
+		})();
+		this.state = {
+			width: global ? global.document.body.offsetWidth : 1500,
+			showing: true,
+		}
+		this.eventListner = null;
+		if (global) {
+			this.eventListener = global.addEventListener('resize', () => {
+				this.setState({
+					width: global ? global.document.body.offsetWidth : 1500
+				});
+			});
+		}
+
+		
+		this.containerRef = React.createRef();
+
+		/*
+		useEffect(() => {
+			const global = (() => {
+				try {
+					return window;
+				} catch {
+					return null;
+				}
+			})();
+			this.forceUpdate();
+			if (global) {
+				this.eventListener = global.addEventListener('resize', () => {
+					this.setState({
+						width: global ? global.document.body.offsetWidth : 1500
+					});
+				});
+				this.setState({
+					width: global ? global.document.body.offsetWidth : 1500
+				});
+			}
+		});
+		*/
+	
+	}
+
+	generateData() {
+		return insertEveryN((this.props.books || ['book']).map(book => <Book name = { book } key = { book }/>), <Spacer/>, Math.floor(this.containerRef && this.containerRef.current ? this.containerRef.current.offsetWidth / 76 : 1500 * 5 / 6 / 90), false);
+	}
+	
+	componentDidMount() {
+		this.eventListener = window.addEventListener('resize', () => {
+			this.setState({
+				width: window ? window.document.body.offsetWidth : 1500
+			});
+		});
+		this.setState({
+			width: window ? window.document.body.offsetWidth : 1500
+		});
+	}
+	
+	render() {
+		return (
+			<div className = 'bg-[url("/books-joshua/wood.jpg")] p-4 text-white'  style = {{ width: 'calc(min(100%, 800px))' }}>
+				<div className = 'h-full bg-[url("/books-joshua/dark-wood.jpg")] flex items-end justify-center flex-wrap' ref = { this.containerRef }>
+					{ this.generateData() }
+				</div>
 			</div>
-		</div>
-	)
+		)
+	}
 }
