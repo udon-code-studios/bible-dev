@@ -23,8 +23,28 @@ class Curtain extends React.Component {
 						transition = {{ duration: 1 }}
 						className = 'opacity-0'
 					>
-					<button className = 'rounded-3xl p-10 m-10 h-96 text-white text-xl bg-blue-600 shadow-xl hover:shadow-2xl transition-shadow duration-200'>Old<br/>Testament</button>
-					<button className = 'rounded-3xl p-10 m-10 h-96 text-white text-xl bg-blue-600 shadow-xl hover:shadow-2xl transition-shadow duration-200'>New<br/>Testament</button>
+						<button
+							onClick = { () => {
+								this.props.onOld()
+							} }
+							
+							className = 'rounded-3xl p-10 m-10 h-96 text-white text-xl bg-blue-600 shadow-xl hover:shadow-2xl transition-shadow duration-200'
+						>
+							Old
+							<br/>
+							Testament
+						</button>
+						<button
+							onClick = { () => {
+								this.props.onNew();
+							} }
+							
+							className = 'rounded-3xl p-10 m-10 h-96 text-white text-xl bg-blue-600 shadow-xl hover:shadow-2xl transition-shadow duration-200'
+						>
+							New
+							<br/>
+							Testament
+						</button>
 					</motion.div>
 				</div>
 			</div>
@@ -36,18 +56,57 @@ export default function Page() {
 	useEffect(() => {
 	})
 
-	const [open, setOpen] = useState('none');
+	const [bookshelf, setBookshelf] = useState(null);
   return (
     <div>
       <Head>
         <title>Joshuas books</title>
       </Head>
       <main>
-				<Curtain over = { open === 'none' } onNew = { () => setOpen('new') } onOld = { () => setOpen('old') }/>
+				<Curtain
+					over = { true }
+					onOld = {
+						() => {
+							setBookshelf(
+								<motion.div
+									initial = {{ scale: 0 }}
+									animate = {{ scale: 1 }}
+									transition = {{ duration: 1 }}
+									className = 'fixed w-screen min-h-screen z-10 bg-white'
+								>
+									<button onClick = { () => { setBookshelf(null) } } className = 'fixed'>
+										<img src = '/books-joshua/back.svg' className = 'w-16 h-16 ml-4 pointer cursor-pointer' style = {{ filter: 'invert(34%) sepia(63%) saturate(1326%) hue-rotate(80deg) brightness(95%) contrast(102%)' }}/>
+									</button>
+									<div className = 'max-h-screen overflow-auto flex justify-center items-center'>
+										<Shelf books = { booksOld }/>
+									</div>
+								</motion.div>
+							)
+						}
+					}
+					onNew = {
+						() => {
+							setBookshelf(
+								<motion.div
+									initial = {{ scale: 0 }}
+									animate = {{ scale: 1 }}
+									transition = {{ duration: 1 }}
+									className = 'fixed w-screen min-h-screen z-10 bg-white'
+								>
+									<button onClick = { () => { setBookshelf(null) } } className = 'fixed'>
+										<img src = '/books-joshua/back.svg' className = 'w-16 h-16 ml-4 pointer cursor-pointer' style = {{ filter: 'invert(34%) sepia(63%) saturate(1326%) hue-rotate(80deg) brightness(95%) contrast(102%)' }}/>
+									</button>
+									<div className = 'h-screen overflow-auto flex justify-center items-center'>
+										<Shelf books = { booksNew }/>
+									</div>
+								</motion.div>
+							)
+						}
+					}
+				/>
 				<div className = 'h-screen'>
 					<div className = 'flex items-center flex-col'>
-						<Shelf books = { booksOld } hidden = { open !== 'old' }/> 
-						<Shelf books = { booksNew } hidden = { open !== 'new' }/>
+						{ bookshelf }
 					</div>
 				</div>
       </main>

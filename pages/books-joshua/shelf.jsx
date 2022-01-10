@@ -87,7 +87,6 @@ export default class Shelf extends React.Component {
 		this.setState({
 			width: window ? window.document.body.offsetWidth : 1500
 		});
-		alert(this.props.hidden ? 'none' : 'block')
 	}
 	
 	render() {
