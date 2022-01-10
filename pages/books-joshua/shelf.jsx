@@ -72,30 +72,6 @@ export default class Shelf extends React.Component {
 
 		
 		this.containerRef = React.createRef();
-
-		/*
-		useEffect(() => {
-			const global = (() => {
-				try {
-					return window;
-				} catch {
-					return null;
-				}
-			})();
-			this.forceUpdate();
-			if (global) {
-				this.eventListener = global.addEventListener('resize', () => {
-					this.setState({
-						width: global ? global.document.body.offsetWidth : 1500
-					});
-				});
-				this.setState({
-					width: global ? global.document.body.offsetWidth : 1500
-				});
-			}
-		});
-		*/
-	
 	}
 
 	generateData() {
@@ -111,15 +87,16 @@ export default class Shelf extends React.Component {
 		this.setState({
 			width: window ? window.document.body.offsetWidth : 1500
 		});
+		alert(this.props.hidden ? 'none' : 'block')
 	}
 	
 	render() {
 		return (
-			<div className = 'bg-[url("/books-joshua/wood.jpg")] p-4 text-white'  style = {{ width: 'calc(min(100%, 800px))' }}>
-				<div className = 'h-full bg-[url("/books-joshua/dark-wood.jpg")] flex items-end justify-center flex-wrap' ref = { this.containerRef }>
-					{ this.generateData() }
+				<div className = 'bg-[url("/books-joshua/wood.jpg")] p-4 text-white'  style = {{ width: 'calc(min(100%, 800px))', display: this.props.hidden ? 'none' : 'block'}}>
+					<div className = 'h-full bg-[url("/books-joshua/dark-wood.jpg")] flex items-end justify-center flex-wrap' ref = { this.containerRef }>
+						{ this.generateData() }
+					</div>
 				</div>
-			</div>
 		)
 	}
 }
