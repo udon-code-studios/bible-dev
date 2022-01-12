@@ -1,5 +1,5 @@
 import Book from './book';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useReducer, useRef, useEffect } from 'react';
 
 function insertEveryN (arr, token, n, fromEnd) {
 	// Clone the received array, so we don't mutate the
@@ -25,77 +25,52 @@ function insertEveryN (arr, token, n, fromEnd) {
 	return a;
 };
 	
-class Spacer extends React.Component {
-	ref = React.createRef();
-	
-	render() {
-		setTimeout(() => {
-			if (this.ref.current && this.ref.current.className.includes('spine')) {
-				this.forceUpdate();
-			} else {
-			
-			}
-		}, 100);
-		const global = (() => {
-			try {
-				return window;
-			} catch {
-				return null;
-			}
-		})();
-		return <div className = 'width-full h64 bg-[url("/books-joshua/wood.jpg")] text-transparent overflow-hidden whitespace-nowrap' ref = { this.ref }>{ 'p'.repeat(global ? global.innerWidth / 3 : 500) }</div>
-	}
+function Spacer(props) {
+	const global = (() => {
+		try {
+			return window;
+		} catch {
+			return null;
+		}
+	})();
+	return <div className = 'width-full bg-[#cd7447] h64 text-transparent cursor-default select-none overflow-hidden whitespace-nowrap' style = {{ /* boxShadow: '0 1rem 10px #7e3d2a'*/  }}>
+		{ 'p'.repeat(global ? global.innerWidth / 3 : 500) }
+	</div>
 }
 
-export default class Shelf extends React.Component {
-	constructor(props) {
-		super(props);
-		const global = (() => {
-			try {
-				return window;
-			} catch {
-				return null;
-			}
-		})();
-		this.state = {
-			width: global ? global.document.body.offsetWidth : 1500,
-			showing: true,
+export default function Shelf(props) {
+	const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
+	
+	const global = (() => {
+		try {
+			return window;
+		} catch {
+			return null;
 		}
-		this.eventListner = null;
-		if (global) {
-			this.eventListener = global.addEventListener('resize', () => {
-				this.setState({
-					width: global ? global.document.body.offsetWidth : 1500
-				});
-			});
-		}
+	})();
 
-		
-		this.containerRef = React.createRef();
-	}
+	
+	const containerRef = useRef(null);
 
-	generateData() {
-		return insertEveryN((this.props.books || ['book']).map(book => <Book name = { book } key = { book }/>), <Spacer/>, Math.floor(this.containerRef && this.containerRef.current ? this.containerRef.current.offsetWidth / 76 : 1500 * 5 / 6 / 90), false);
+	function generateData() {
+		return insertEveryN(
+			(props.books || ['book'])
+			.map(book => <Book name = { book } key = { book }/>),
+			<Spacer/>,
+			Math.floor(containerRef && containerRef.current ? containerRef.current.offsetWidth / 52 : 1500 / 52),
+			false
+		);
 	}
 	
-	componentDidMount() {
-		this.eventListener = window.addEventListener('resize', () => {
-			this.setState({
-				width: window ? window.document.body.offsetWidth : 1500
-			});
-		});
-		this.setState({
-			width: window ? window.document.body.offsetWidth : 1500
-		});
-	}
-	
-	render() {
-		return (
-				<div className = 'bg-[url("/books-joshua/wood.jpg")] p-4 text-white'  style = {{ width: 'calc(min(100%, 800px))', display: this.props.hidden ? 'none' : 'block'}}>
-					<div className = 'h-full bg-[url("/books-joshua/dark-wood.jpg")] flex items-end justify-center flex-wrap' ref = { this.containerRef }>
-						{ this.generateData() }
-					</div>
-				</div>
-		)
-	}
+	useEffect(() => {
+		forceUpdate();
+		window.addEventListener('resize', forceUpdate);
+	}, []);
+	return (
+		<div className = 'p-4 text-white bg-[#cd7447]'  style = {{ width: 'calc(min(100%, 800px))', border: '#f49c6c solid 4px', borderBottom: 'none'}}>
+			<div className = 'h-full bg-[#8e4d3a] flex items-end justify-center flex-wrap overflow-x-visible' ref = { containerRef } style = {{ boxShadow: 'inset 0 1rem 10px #7e3d2a' }}>
+				{ generateData() }
+			</div>
+		</div>
+	)
 }

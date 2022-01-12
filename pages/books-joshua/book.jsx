@@ -1,10 +1,11 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
 const spineTextures = [
-	'blue',
-	'brown',
-	'maroon',
-	'red'
+	'bg-sky-500',
+	'bg-amber-400',
+	'bg-lime-500',
+	'bg-red-600'
 ];
 
 var lastBookColor = 0;
@@ -13,6 +14,7 @@ export default class Book extends React.Component {
 		super(props);
 		this.key = (lastBookColor + Math.ceil(Math.random() * (spineTextures.length - 1))) % spineTextures.length;
 		lastBookColor = this.key;
+		this.key = Math.floor(Math.random() * (spineTextures.length))
 		this.ref = React.createRef();
 	}
 	render() {
@@ -24,9 +26,16 @@ export default class Book extends React.Component {
 			}
 		}, 100);
 		return (
-			<div className = { 'bg-repeat p-4 mx-1 mt-4 text-center inline-block align-middle text-3xl rounded whitespace-nowrap cursor-pointer' } style={{ writingMode: 'vertical-rl', boxShadow: 'inset 15px 0 12px rgba(0,0,0,.5), inset -15px 0 12px rgba(0,0,0,.5)', backgroundImage: 'url("/books-joshua/spines/spine-' + spineTextures[this.key] + '.png")' }}>
+			<motion.div
+				initial = {{
+					x: Math.random() > .5 ? Math.random() * 1000 + 1000 : Math.random() * -1000 - 1000,
+					y: Math.random() > .5 ? Math.random() * 1000 + 1000 : Math.random() * -1000 - 1000,
+				}}
+				animate={{ x: 0, y: 0 }}
+    		transition={{ duration: 1 }}
+				className = { 'bg-repeat p-3 mx-1 mt-4 text-center text-sm inline-block align-middle text-3xl rounded whitespace-nowrap cursor-pointer ' + spineTextures[this.key] } style={{ writingMode: 'vertical-rl' }}>
 				{ this.props.name }
-			</div>
+			</motion.div>
 		)
 	}
 }

@@ -1,4 +1,5 @@
-import Head from 'next/head'
+import Head from 'next/head';
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -11,10 +12,10 @@ export default function Home() {
 
       <main>
         <h1 className="text-4xl">
-          Joshua's Books: <a href="/books-joshua">Click me!</a>
+          Joshua&apos;s Books: <Link href="/books-joshua">Click me!</Link>
         </h1>
         <h1 className="text-4xl">
-          Leo's Books: <a href="/books-leo">Click me!</a>
+          Leo&apos;s Books: <Link href="/books-leo">Click me!</Link>
         </h1>
       </main>
     </div>
