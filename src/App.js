@@ -3,6 +3,7 @@ import { Routes, Route, Outlet, Link } from "react-router-dom";
 import Header from './components/Header';
 import Footer from './components/Footer';
 import PageNotFound from './components/PageNotFound';
+import Home from './components/Home'
 
 export default function App() {
   return (
@@ -26,14 +27,6 @@ export default function App() {
       </Routes>
 
       <Footer />
-    </div>
-  );
-}
-
-function Home() {
-  return (
-    <div>
-      <h2>Home</h2>
     </div>
   );
 }
