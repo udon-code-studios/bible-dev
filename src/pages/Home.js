@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import Book from './Book'
+import Book from '../components/Book'
 
 export default function Home() {
   const variants = {

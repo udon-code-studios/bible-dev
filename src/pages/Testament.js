@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import Book from './Book'
+import Book from '../components/Book'
 
 export default function Testament({ testament }) {
   const bookWidth = (chapters) => {
@@ -98,10 +98,10 @@ export default function Testament({ testament }) {
         className="flex flex-row justify-start h-80 rounded-3xl"
       >
         {/* render books from books.[ot/nt] array */}
-        {books.ot.map((book, index) => {
+        {books[testament].map((book, index) => {
           return (
             <motion.div key={index} variants={bookVariants} transition={{ duration: 1.5 }}>
-              <Book width={bookWidth(book.chapters)} title="Old Testament" />
+              <Book width={bookWidth(book.chapters)} title={book.name} />
             </motion.div>
           );
         })}
