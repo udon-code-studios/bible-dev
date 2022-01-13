@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import PageNotFound from './components/PageNotFound';
-import Home from './components/Home';
-import Testament from './components/Testament';
 import { AnimatePresence } from 'framer-motion';
-
+import Footer from './components/Footer';
+import Header from './components/Header';
+import Home from './pages/Home';
+import PageNotFound from './pages/PageNotFound';
+import Testament from './pages/Testament';
 
 export default function App() {
   const location = useLocation();
@@ -20,30 +19,13 @@ export default function App() {
           <Route path="/">
             <Route index element={<Home />} />
             <Route path="ot" element={<Testament testament="ot" />} />
-            <Route path="nt" element={<Dashboard />} />
+            <Route path="nt" element={<Testament testament="nt" />} />
             <Route path="*" element={<PageNotFound />} />
           </Route>
         </Routes>
       </AnimatePresence>
 
-
       <Footer />
-    </div>
-  );
-}
-
-function About() {
-  return (
-    <div>
-      <h2>About</h2>
-    </div>
-  );
-}
-
-function Dashboard() {
-  return (
-    <div>
-      <h2>Dashboard</h2>
     </div>
   );
 }
