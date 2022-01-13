@@ -1,30 +1,31 @@
-import * as React from "react";
-import { Routes, Route, Outlet, Link } from "react-router-dom";
+import * as React from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import PageNotFound from './components/PageNotFound';
-import Home from './components/Home'
+import Home from './components/Home';
+import Testament from './components/Testament';
+import { AnimatePresence } from 'framer-motion';
+
 
 export default function App() {
+  const location = useLocation();
+
   return (
     <div className="relative flex flex-col min-h-screen bg-stone-400 text-stone-900">
       <Header />
 
-      {/* Routes nest inside one another. Nested route paths build upon
-            parent route paths, and nested route elements render inside
-            parent route elements. See the note about <Outlet> below. */}
-      <Routes>
-        <Route path="/">
-          <Route index element={<Home />} />
-          <Route path="about" element={<About />} />
-          <Route path="dashboard" element={<Dashboard />} />
+      <AnimatePresence exitBeforeEnter>
+        <Routes location={location} key={location.pathname}>
+          <Route path="/">
+            <Route index element={<Home />} />
+            <Route path="ot" element={<Testament testament="ot" />} />
+            <Route path="nt" element={<Dashboard />} />
+            <Route path="*" element={<PageNotFound />} />
+          </Route>
+        </Routes>
+      </AnimatePresence>
 
-          {/* Using path="*"" means "match anything", so this route
-                acts like a catch-all for URLs that we don't have explicit
-                routes for. */}
-          <Route path="*" element={<PageNotFound />} />
-        </Route>
-      </Routes>
 
       <Footer />
     </div>
