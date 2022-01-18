@@ -1,7 +1,14 @@
+import { Link, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Book from '../components/Book'
+import bible from '../assets/bible.png'
 
-export default function Testament({ testament }) {
+export default function Testament() {
+
+  // get testament from router
+  const { testament } = useParams();
+  const initialWidth = (testament === 'ot') ? '14rem' : '10rem';
+
   const bookWidth = (chapters) => {
     const totalChapters = (testament === 'ot') ? 929 : 260;
     const remScaler = (testament === 'ot') ? 100 : 70;
@@ -81,7 +88,7 @@ export default function Testament({ testament }) {
   };
 
   const shelfVariants = {
-    together: { width: '12rem', overflowX: 'hidden', backgroundColor: 'rgb(41 37 36)', },
+    together: { overflowX: 'hidden', backgroundColor: 'rgb(41 37 36)', },
     apart: { width: '75%', /*overflowX: 'scroll',*/ backgroundColor: 'rgb(168 162 158)', },
   };
 
@@ -91,21 +98,36 @@ export default function Testament({ testament }) {
   };
 
   return (
-    <div className="flex flex-row justify-center items-center py-16 px-8 gap-6">
-      <motion.div
-        initial="together" animate="apart"
-        variants={shelfVariants} transition={{ duration: 1.5 }}
-        className="flex flex-row justify-start h-80 rounded-3xl"
-      >
-        {/* render books from books.[ot/nt] array */}
-        {books[testament].map((book, index) => {
-          return (
-            <motion.div key={index} variants={bookVariants} transition={{ duration: 1.5 }}>
-              <Book width={bookWidth(book.chapters)} title={book.name} />
-            </motion.div>
-          );
-        })}
-      </motion.div>
+    <div>
+      {/* header */}
+      <div className="grid grid-flow-col justify-center py-4">
+        <Link to="/">
+          <div className="flex items-center gap-4 text-4xl font-semibold">
+            <img src={bible} alt="bible" className="w-16 h-16"></img>
+            <h1>BibleDev</h1>
+          </div>
+        </Link>
+      </div>
+
+      <div className="flex flex-row justify-center items-center py-16 px-8 gap-6">
+        <motion.div
+          initial="together" animate="apart"
+          variants={shelfVariants} transition={{ duration: 1.5 }}
+          className="flex flex-row justify-start h-80 rounded-3xl"
+          style={{width: initialWidth}}
+        >
+          {/* render books from books.[ot/nt] array */}
+          {(testament === 'ot' || testament === 'nt') ? books[testament].map((book, index) => {
+            return (
+              <motion.div key={index} variants={bookVariants} transition={{ duration: 1.5 }}>
+                <Link to={`./${book.name.toLowerCase()}`}>
+                  <Book width={bookWidth(book.chapters)} title={book.name} />
+                </Link>
+              </motion.div>
+            );
+          }) : null}
+        </motion.div>
+      </div>
     </div>
   );
 }
