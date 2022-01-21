@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import { ArrowSmUpIcon } from '@heroicons/react/outline';
+import Metadata from '/components/Metadata';
 
 // TODO: add description
 export default function Page() {
@@ -19,7 +20,7 @@ export default function Page() {
   return (
     <>
       <Head>
-        <title>{book && book[0].toUpperCase() + book.slice(1).toLowerCase()}</title>
+      	<Metadata title = { book && book[0].toUpperCase() + book.slice(1).toLowerCase() }/>
       </Head>
 
       <div className="relative flex flex-col min-h-screen bg-stone-900 text-stone-400 font-serif">
