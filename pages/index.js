@@ -46,14 +46,8 @@ export default function Page() {
     <>
       <Head>
         <title>BibleDev</title>
-        <meta name="description" content="<placeholder description>"/>
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
-				<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
-				<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
-				<link rel="manifest" href="/site.webmanifest"/>
-				<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"/>
-				<meta name="msapplication-TileColor" content="#da532c"/>
-				<meta name="theme-color" content="#ffffff"/>
+        <meta name="description" content="<placeholder description>" />
+        <link rel="icon" href="/bible.png" />
       </Head>
 
       <main>
@@ -94,9 +88,9 @@ export default function Page() {
 
             {/* old testament */}
             <motion.button
-              animate={(view === 'home') ? 'show' : (view === 'ot') ? 'show' : 'hide'}
+              animate={(view === 'home') ? 'show' : (view === 'old') ? 'show' : 'hide'}
               variants={otVarients} transition={{ when: 'beforeChildren', duration: 0.3 }}
-              className="text-stone-400" onClick={() => selectTestament('ot')}
+              className="text-stone-400" onClick={() => selectTestament('old')}
             >
               <motion.div variants={sizeVarients} transition={{ duration: 0.7 }}>
                 <Book width="14rem" title="Old Testament" />
@@ -108,9 +102,9 @@ export default function Page() {
 
             {/* new testament */}
             <motion.button
-              animate={(view === 'home' || view === 'nt') ? 'show' : 'hide'}
+              animate={(view === 'home' || view === 'new') ? 'show' : 'hide'}
               variants={ntVarients} transition={{ when: 'beforeChildren', duration: 0.3 }}
-              className="text-stone-400" onClick={() => selectTestament('nt')}
+              className="text-stone-400" onClick={() => selectTestament('new')}
             >
               <motion.div variants={sizeVarients} transition={{ duration: 0.7 }}>
                 <Book width="10rem" title="New Testament" />
