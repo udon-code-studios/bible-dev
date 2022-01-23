@@ -1,0 +1,7 @@
+.force-overflow {
+    overflow: auto !important;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
