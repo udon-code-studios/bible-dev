@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import Book from '/components/Book';
 import mongo from '/lib/mongodb';
-import './scrollbar.css';
 
 // TODO: add description
 export default function Page({ booksData }) {
@@ -13,7 +12,7 @@ export default function Page({ booksData }) {
   const router = useRouter();
   const { testament } = router.query;
 
-	if (router.isFallback) {
+  if (router.isFallback) {
     return <div>Loading...</div>
   }
 	
@@ -59,7 +58,7 @@ export default function Page({ booksData }) {
           </Link>
         </div>
 
-        <div className="flex flex-row justify-center items-center py-16 px-8 gap-6" style = {{ overflow: 'scroll' }}>
+        <div className="flex flex-row justify-center items-center py-16 px-8 gap-6">
           <motion.div
             initial="together" animate="apart"
             variants={shelfVariants} transition={{ duration: 1.5 }}
@@ -105,7 +104,6 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps() {
-
   const data = await mongo('books');
   return {
     props: {
