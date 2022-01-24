@@ -12,7 +12,7 @@ export default function Page({ booksData }) {
   const router = useRouter();
   const { testament } = router.query;
 
-  if (router.isFallback) {
+	if (router.isFallback) {
     return <div>Loading...</div>
   }
 	
@@ -62,7 +62,7 @@ export default function Page({ booksData }) {
           <motion.div
             initial="together" animate="apart"
             variants={shelfVariants} transition={{ duration: 1.5 }}
-            className="flex flex-row justify-start h-80 rounded-3xl w-48 force-overflow"
+            className="flex flex-row justify-start h-80 rounded-3xl w-48 force-overflow scrollbar-light"
             style={{ width: initialWidth }}
           >
             {/* render books from books.[ot/nt] array */}
@@ -104,6 +104,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps() {
+
   const data = await mongo('books');
   return {
     props: {
