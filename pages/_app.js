@@ -1,5 +1,6 @@
 import '../styles/globals.css';
 import Footer from '/components/Footer';
+import './scrollbar.css';
 
 function MyApp({ Component, pageProps }) {
   return (

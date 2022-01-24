@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -8,8 +8,11 @@ import Book from '/components/Book';
 // TODO: add description
 export default function Page() {
 
-  const [view, setView] = useState('home'); // home, ot, nt
+  const [view, setView] = useState('home'); // home, old, new
   const router = useRouter(); // used to change routing programmatically
+
+	// if we were routed from not root page change url to /
+	useEffect(() => router.push('/'), []);
 
   // TODO: add description
   const selectTestament = (testament) => {
@@ -88,9 +91,9 @@ export default function Page() {
 
             {/* old testament */}
             <motion.button
-              animate={(view === 'home') ? 'show' : (view === 'ot') ? 'show' : 'hide'}
+              animate={(view === 'home') ? 'show' : (view === 'old') ? 'show' : 'hide'}
               variants={otVarients} transition={{ when: 'beforeChildren', duration: 0.3 }}
-              className="text-stone-400" onClick={() => selectTestament('ot')}
+              className="text-stone-400" onClick={() => selectTestament('old')}
             >
               <motion.div variants={sizeVarients} transition={{ duration: 0.7 }}>
                 <Book width="14rem" title="Old Testament" />
@@ -102,9 +105,9 @@ export default function Page() {
 
             {/* new testament */}
             <motion.button
-              animate={(view === 'home' || view === 'nt') ? 'show' : 'hide'}
+              animate={(view === 'home' || view === 'new') ? 'show' : 'hide'}
               variants={ntVarients} transition={{ when: 'beforeChildren', duration: 0.3 }}
-              className="text-stone-400" onClick={() => selectTestament('nt')}
+              className="text-stone-400" onClick={() => selectTestament('new')}
             >
               <motion.div variants={sizeVarients} transition={{ duration: 0.7 }}>
                 <Book width="10rem" title="New Testament" />
