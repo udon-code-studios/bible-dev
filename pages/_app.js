@@ -1,8 +1,7 @@
 import '../styles/globals.css';
 import Footer from '/components/Footer';
-import './scrollbar.css';
 
-function MyApp({ Component, pageProps }) {
+function App({ Component, pageProps }) {
   return (
     <div className="relative flex flex-col min-h-screen bg-stone-400 text-stone-900">
       <Component {...pageProps} />
@@ -11,4 +10,4 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-export default MyApp
+export default App
