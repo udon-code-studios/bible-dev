@@ -3,8 +3,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
-import Book from '/components/Book';
 import { getCollection } from '/lib/mongodb';
+import Book from '/components/Book';
 
 // TODO() add descriptive comment
 export default function Page({ books }) {
@@ -60,6 +60,7 @@ export default function Page({ books }) {
             className="flex flex-row justify-start h-80 rounded-3xl w-48 force-overflow scrollbar-light"
             style={{ width: ((testament === 'old') ? '14rem' : '10rem') }}
           >
+
             {/* render books from books prop */}
             {books.filter(book => book.testament === testament).map((book, index) => {
               return (
@@ -72,6 +73,7 @@ export default function Page({ books }) {
                 </motion.div>
               );
             })}
+
           </motion.div>
         </div>
 
@@ -93,10 +95,10 @@ export async function getStaticPaths() {
 
 // Next docs: https://nextjs.org/docs/api-reference/data-fetching/get-static-props
 export async function getStaticProps() {
-  const data = await getCollection('books');
+  const books = await getCollection('books', {}, { _id: 0 });
   return {
     props: {
-      books: data
+      books: book
     },
   };
 }
