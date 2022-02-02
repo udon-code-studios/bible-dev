@@ -56,9 +56,11 @@ export default function Page ({ prev, bookData, next }) {
             {/* previous book */}
 						{ prev ? (
 							<Link href = { '/' + prev.testament + '/' + prev.name }>
-	            	<div className="flex justify-center items-center my-8 w-20 rounded-r-3xl bg-stone-400 text-stone-900 text-3xl cursor-pointer">
-	              	<div className="rotate-90 whitespace-nowrap capitalize">{ prev.name }</div>
-	            	</div>
+								<a>
+	            		<div className="flex justify-center items-center my-8 w-20 rounded-r-3xl bg-stone-400 text-stone-900 text-3xl cursor-pointer">
+	              		<div className="rotate-90 whitespace-nowrap capitalize">{ prev.name }</div>
+	            		</div>
+								</a>
 							</Link>
 						) : null
 						}

@@ -6,7 +6,10 @@ class MyDocument extends Document {
     return { ...initialProps }
   }
 
+
   render() {
+    // clear console
+    console.clear();
     return (
       <Html lang = 'en'>
         <Head />
