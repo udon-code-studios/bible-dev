@@ -1,48 +1,66 @@
+// file: pages/index.js
+
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import Book from '/components/Book';
 
-// TODO: add description
+// TODO('add description')
 export default function Page() {
-
-  const [view, setView] = useState('home'); // home, old, new
+  const [view, setView] = useState('home'); // states: 'home', 'old', 'new'
   const router = useRouter(); // used to change routing programmatically
 
-	// if we were routed from not root page change url to /
-	useEffect(() => router.push('/'), []);
+  // QUESTION('is this necessary?')
+  // if routed from not root page, change url to /
+  //useEffect(() => router.push('/'), []);
 
-  // TODO: add description
+  // TODO('add description')
   const selectTestament = (testament) => {
     setView(testament);
     setTimeout(() => { router.push(`/${testament}`) }, 1000) // allow 1s to transpire before navigating to the next page
   }
 
-  const opacityVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 },
+  // set motion varients
+  const variants = {
+    opacityVariants: {
+      hidden: { opacity: 0 },
+      visible: { opacity: 1 },
+    },
+    overviewVariants: {
+      show: { opacity: 1 },
+      hide: { x: -1500 },
+    },
+    otVariants: {
+      show: { opacity: 1 },
+      hide: { x: -1500 },
+    },
+    ntVariants: {
+      show: { opacity: 1 },
+      hide: { x: 1500 },
+    },
+    sizeVariants: {
+      show: { opacity: 1, },
+      hide: { opacity: 0, width: 0, height: 0 },
+    },
+    spacerVariants: {
+      show: { width: '1.5rem' },
+      hide: { width: 0 },
+    },
   }
 
-  const overviewVarients = {
-    show: { opacity: 1 },
-    hide: { x: -1500 },
-  }
-
-  const otVarients = {
-    show: { opacity: 1 },
-    hide: { x: -1500 },
-  }
-
-  const ntVarients = {
-    show: { opacity: 1 },
-    hide: { x: 1500 },
-  }
-
-  const sizeVarients = {
-    show: { opacity: 1 },
-    hide: { opacity: 0, width: 0, height: 0 },
+  // spacer component which shrinks on view animation
+  function ShrinkingSpacer() {
+    return (
+      <motion.div
+        initial="show"
+        animate={(view === 'home') ? 'show' : 'hide'}
+        variants={variants.spacerVariants}
+        transition={{ delay: 0.3, duration: 0.7 }}
+      ></motion.div>
+    );
   }
 
   return (
@@ -59,7 +77,9 @@ export default function Page() {
           <Link href="/">
             <a>
               <div className="flex items-center gap-4 text-4xl font-semibold">
-                <img src="/bible.png" alt="bible" className="w-16 h-16" />
+                <div className="w-16 h-16 relative">
+                  <Image src="/bible.png" alt="bible" layout="fill" />
+                </div>
                 <h1>BibleDev</h1>
               </div>
             </a>
@@ -68,17 +88,17 @@ export default function Page() {
 
         <motion.div
           initial="hidden" animate="visible"
-          variants={opacityVariants} transition={{ duration: 1 }}
+          variants={variants.opacityVariants} transition={{ duration: 1 }}
         >
-          <div className="flex justify-center items-center py-16 px-8 overflow-hidden">
+          <div className="flex justify-center items-center py-14 px-8 overflow-hidden">
 
             {/* overview text */}
             <motion.div
               animate={(view === 'home') ? 'show' : 'hide'}
-              variants={overviewVarients} transition={{ when: 'beforeChildren', duration: 0.3 }}
+              variants={variants.overviewVariants} transition={{ when: 'beforeChildren', duration: 0.3 }}
               className="space-y-1"
             >
-              <motion.div variants={sizeVarients} transition={{ duration: 0.7 }}>
+              <motion.div variants={variants.sizeVariants} transition={{ duration: 0.7 }}>
                 <h1 className="text-3xl font-serif font-bold">The Bible</h1>
                 <p className="max-w-md">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
@@ -87,29 +107,29 @@ export default function Page() {
             </motion.div>
 
             {/* spacer */}
-            <motion.div variants={sizeVarients} transition={{ duration: 0.7 }} className="w-8"></motion.div>
+            <ShrinkingSpacer />
 
             {/* old testament */}
             <motion.button
               animate={(view === 'home') ? 'show' : (view === 'old') ? 'show' : 'hide'}
-              variants={otVarients} transition={{ when: 'beforeChildren', duration: 0.3 }}
+              variants={variants.otVariants} transition={{ when: 'beforeChildren', duration: 0.3 }}
               className="text-stone-400" onClick={() => selectTestament('old')}
             >
-              <motion.div variants={sizeVarients} transition={{ duration: 0.7 }}>
+              <motion.div variants={variants.sizeVariants} transition={{ duration: 0.7 }}>
                 <Book width="14rem" title="Old Testament" />
               </motion.div>
             </motion.button>
 
             {/* spacer */}
-            <motion.div variants={sizeVarients} transition={{ duration: 0.7 }} className="w-6"></motion.div>
+            <ShrinkingSpacer />
 
             {/* new testament */}
             <motion.button
               animate={(view === 'home' || view === 'new') ? 'show' : 'hide'}
-              variants={ntVarients} transition={{ when: 'beforeChildren', duration: 0.3 }}
+              variants={variants.ntVariants} transition={{ when: 'beforeChildren', duration: 0.3 }}
               className="text-stone-400" onClick={() => selectTestament('new')}
             >
-              <motion.div variants={sizeVarients} transition={{ duration: 0.7 }}>
+              <motion.div variants={variants.sizeVariants} transition={{ duration: 0.7 }}>
                 <Book width="10rem" title="New Testament" />
               </motion.div>
             </motion.button>
@@ -120,3 +140,6 @@ export default function Page() {
     </>
   )
 }
+
+//
+// end of file: pages/index.js

@@ -1,3 +1,5 @@
+// file: pages/[testament]/[book]/index.js
+
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -5,28 +7,37 @@ import { motion } from 'framer-motion';
 import { getCollection } from '/lib/mongodb';
 import { ArrowSmUpIcon } from '@heroicons/react/outline';
 
-// TODO: add description
+// TODO('add description')
 export default function Page({ prev, devHistory, next }) {
   // get book title from URL
   const router = useRouter();
   const { book } = router.query;
 
-  const opacityVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 },
+  // capitalizes first letter of each word in 'str'
+  function capitalize(str) {
+    return str.replace(new RegExp('\\b\\w', 'g'), (c) => c.toUpperCase());
+  }
+
+  // set motion variants
+  const variants = {
+    opacity: {
+      hidden: { opacity: 0 },
+      visible: { opacity: 1 },
+    },
   }
 
   return (
     <>
       <Head>
-        <title>{book && book[0].toUpperCase() + book.slice(1).toLowerCase()}</title>
+        <title>{book && capitalize(book)}</title>
       </Head>
 
       <main>
-        <div className="relative flex flex-col min-h-screen bg-stone-900 text-stone-400 font-serif">
+        <div className="flex flex-col bg-stone-900 text-stone-400 font-serif">
+          {/* fade-in page contents on load */}
           <motion.div
             initial="hidden" animate="visible"
-            variants={opacityVariants} transition={{ duration: 1 }}
+            variants={variants.opacity} transition={{ duration: 1 }}
           >
 
             {/* header */}
@@ -50,11 +61,11 @@ export default function Page({ prev, devHistory, next }) {
               </Link>
             </div>
 
-            {/* books */}
-            <div className="flex flex-grow my-4 w-screen max-h-[calc(100vh-225px)] fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+            {/* books TODO('is this the best way to do it's height?') */}
+            <div className="flex flex-grow my-4 max-h-[70vh]">
 
               {/* previous book */}
-              {prev ? (
+              {(prev) ?
                 <div className="flex flex-col justify-center">
                   <Link href={`/${prev.testament.toLowerCase()}/${prev.name.toLowerCase()}`}>
                     <a className='block w-20 h-5/6'>
@@ -64,47 +75,25 @@ export default function Page({ prev, devHistory, next }) {
                     </a>
                   </Link>
                 </div>
-              </a>
-            </Link>
-          </div>
-
-          {/* books */}
-          <div className="flex flex-grow my-4 w-screen max-h-[calc(100vh-225px)] fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-
-            {/* previous book */}
-						{ prev ? (
-							<Link href = { '/' + prev.testament + '/' + prev.name }>
-                <a className='block w-20 h-5/6'>
-                  <div className="flex justify-center items-center my-8 w-20 rounded-r-3xl bg-stone-400 text-stone-900 text-3xl cursor-pointer">
-                    <div className="rotate-90 whitespace-nowrap capitalize">{ prev.name }</div>
-                  </div>
-                </a>
-							</Link>
-						) : null
-						}
-
-            {/* current book */}
-            <div className="flex flex-grow justify-center mx-8 border-8 border-stone-400 rounded-3xl">
-              <div className="flex flex-col m-16 max-w-4xl">
-                <h1 className="mb-10 capitalize text-5xl">{ book }</h1>
-                <div className="max-h-[50vh] space-y-4 overflow-y-auto scrollbar-dark">
-									{ bookData }
-              ) :
+                :
                 <div className="w-24 bg-stone-900"></div>
               }
 
               {/* current book */}
               <div className="flex flex-grow justify-center mx-8 border-8 border-stone-400 rounded-3xl">
-                <div className="flex flex-col m-16 max-w-4xl">
-                  <h1 className="mb-10 capitalize text-5xl">{book}</h1>
-                  <div className="max-h-[50vh] space-y-4 overflow-y-auto scrollbar-dark">
+                <div className="flex flex-col m-12 max-w-3xl">
+                  <div className="flex mb-10 justify-between items-end">
+                    <h1 className="capitalize text-5xl">{book}</h1>
+                    <h1 className="text-2xl">900 BC - 700 BC</h1>
+                  </div>
+                  <div className="space-y-4 overflow-y-auto scrollbar-dark">
                     {devHistory.description}
                   </div>
                 </div>
               </div>
 
               {/* next book */}
-              {next ? (
+              {(next) ?
                 <div className="flex flex-col justify-center">
                   <Link href={`/${next.testament.toLowerCase()}/${next.name.toLowerCase()}`}>
                     <a className='block w-20 h-5/6'>
@@ -114,16 +103,13 @@ export default function Page({ prev, devHistory, next }) {
                     </a>
                   </Link>
                 </div>
-              ) :
+                :
                 <div className="w-24 bg-stone-900"></div>
               }
             </div>
 
             {/* timeline */}
             <div className="my-10 h-0 bg-stone-400"></div>
-
-            {/* footer spacer */}
-            <div className="h-20"></div>
 
           </motion.div>
         </div>
@@ -135,7 +121,6 @@ export default function Page({ prev, devHistory, next }) {
 // Next docs: https://nextjs.org/docs/api-reference/data-fetching/get-static-paths
 export async function getStaticPaths() {
   const data = await getCollection('books', {}, { _id: 0, name: 1, testament: 1 });
-
   const paths = data.map(book => {
     return ({
       params: {
@@ -165,11 +150,14 @@ export async function getStaticProps({ params }) {
   const prev = (idx > 0) ? bookList[idx - 1] : null;
   const next = (idx < bookList.length - 1) ? bookList[idx + 1] : null;
 
-  return {
+  return ({
     props: {
       prev: prev,
       devHistory: devHistory,
       next: next,
     },
-  };
+  });
 }
+
+//
+// end of file: pages/[testament]/[book]/index.js

@@ -1,4 +1,8 @@
+
 import { useRef } from 'react';
+
+// file: pages/[testament]/index.js
+  
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -25,13 +29,13 @@ export default function Page({ booksData, timeSpans, dates }) {
   const initialWidth = (testament === 'old') ? '14rem' : '10rem';
 
 
-// TODO() add descriptive comment
+// TODO('add description')
 export default function Page({ books }) {
   // get testament from URL
   const router = useRouter();
   const { testament } = router.query;
 
-  // TODO() add descriptive comment
+  // TODO('add description')
   const bookWidth = (chapters) => {
     const totalChapters = (testament === 'old') ? 929 : 260;
     const remScaler = (testament === 'old') ? 100 : 70;
@@ -57,7 +61,6 @@ export default function Page({ books }) {
       </Head>
 
       <main>
-
         {/* header */}
         <div className="grid grid-flow-col justify-center py-4">
           <Link href="/">
@@ -194,7 +197,10 @@ export async function getStaticProps() {
   const books = await getCollection('books', {}, { _id: 0 });
   return {
     props: {
-      books: book
+      books: books,
     },
   };
 }
+
+//
+// end of file: pages/[testament]/index.js

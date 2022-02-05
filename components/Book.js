@@ -1,3 +1,8 @@
+// file: components/Book.js
+//
+// TODO('add description')
+//
+
 export default function Book({ width, title }) {
   return (
     <div
@@ -8,3 +13,6 @@ export default function Book({ width, title }) {
     </div>
   );
 }
+
+//
+// end of file: components/Book.js
