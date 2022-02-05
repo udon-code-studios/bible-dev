@@ -1,8 +1,6 @@
-
-import { useRef } from 'react';
-
 // file: pages/[testament]/index.js
-  
+
+import { useRef } from 'react'; // added in 010
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -11,29 +9,15 @@ import { motion } from 'framer-motion';
 import { getCollection } from '/lib/mongodb';
 import Book from '/components/Book';
 import Timeline from '/components/Timeline';
-import mongo from '/lib/mongodb';
-
-// TODO: add description
-export default function Page({ booksData, timeSpans, dates }) {
-  // get testament from router
-  const router = useRouter();
-  const { testament } = router.query;
-
-	// ref for scrolling vertically -> horiziontally.
-	const scrollRef = useRef(null);
-
-	if (router.isFallback) {
-    return <div>Loading...</div>
-  }
-	
-  const initialWidth = (testament === 'old') ? '14rem' : '10rem';
-
 
 // TODO('add description')
-export default function Page({ books }) {
+export default function Page({ books, timeSpans, dates }) {
   // get testament from URL
   const router = useRouter();
   const { testament } = router.query;
+
+  // ref for scrolling vertically -> horiziontally.
+  const scrollRef = useRef(null);
 
   // TODO('add description')
   const bookWidth = (chapters) => {
@@ -43,7 +27,7 @@ export default function Page({ books }) {
   };
 
   // set motion varients
-  const varients = {
+  const variants = {
     shelf: {
       together: { overflowX: 'hidden', backgroundColor: 'rgb(41 37 36)', },
       apart: { width: '75%', /*overflowX: 'scroll',*/ backgroundColor: 'rgb(168 162 158)', },
@@ -78,24 +62,17 @@ export default function Page({ books }) {
         <div className="flex flex-row justify-center items-center py-16 px-8 gap-6">
           <motion.div
             initial="together" animate="apart"
-						ref = { scrollRef }
-            variants={shelfVariants} transition={{ duration: 1.5 }}
+            ref={scrollRef}
+            variants={variants.shelf} transition={{ duration: 1.5 }}
             className="flex flex-row justify-start h-80 rounded-3xl w-48 force-overflow scrollbar-light"
-            style={{ width: initialWidth }}
-						onWheel = {
-							(e) => {
-								e.currentTarget.scrollLeft += e.deltaY + e.deltaX;
-							}
-						}
-            variants={varients.shelf} transition={{ duration: 1.5 }}
-            className="flex flex-row justify-start h-80 rounded-3xl w-48 force-overflow scrollbar-light"
+            onWheel={(e) => { e.currentTarget.scrollLeft += e.deltaY + e.deltaX; }}
             style={{ width: ((testament === 'old') ? '14rem' : '10rem') }}
           >
 
             {/* render books from books prop */}
             {books.filter(book => book.testament === testament).map((book, index) => {
               return (
-                <motion.div key={index} variants={varients.book} transition={{ duration: 1.5 }}>
+                <motion.div key={index} variants={variants.book} transition={{ duration: 1.5 }}>
                   <Link href={`/${testament}/${book.name.toLowerCase()}`}>
                     <a>
                       <Book width={bookWidth(book.chapters)} title={book.name} />
@@ -108,14 +85,14 @@ export default function Page({ books }) {
           </motion.div>
         </div>
         <div
-          className = 'w-screen overflow-x-auto overflow-y-visible nobar'
-          onWheel = {
+          className='w-screen overflow-x-auto overflow-y-visible nobar'
+          onWheel={
             (e) => {
               e.currentTarget.scrollLeft += e.deltaY + e.deltaX;
             }
           }
         >
-  				<Timeline spans = { timeSpans } dates = { dates }/>
+          <Timeline spans={timeSpans} dates={dates} />
         </div>
       </main>
     </>
@@ -188,18 +165,14 @@ export async function getStaticProps() {
     { date: 48, name: 'book 48' },
     { date: -1487, name: 'book -1487' }
   ];
-  const data = await mongo('books');
-  return {
-    props: {
-      booksData: data,
-      timeSpans: timeSpans,
-      dates: dates,
   const books = await getCollection('books', {}, { _id: 0 });
   return {
     props: {
       books: books,
-    },
-  };
+      timeSpans: timeSpans,
+      dates: dates,
+    }
+  }
 }
 
 //
