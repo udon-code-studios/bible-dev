@@ -1,7 +1,4 @@
 // file: components/Footer.js
-//
-// TODO('add description')
-//
 
 import { MailIcon } from '@heroicons/react/solid';
 
