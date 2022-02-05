@@ -98,7 +98,7 @@ export async function getStaticProps() {
   const books = await getCollection('books', {}, { _id: 0 });
   return {
     props: {
-      books: book
+      books: books,
     },
   };
 }
