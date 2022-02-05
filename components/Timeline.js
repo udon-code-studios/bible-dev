@@ -62,6 +62,17 @@ const events = [
  * @returns Timeline JSX
  */
 export default function Timeline({ spans = timeSpans, dates = events }) {
+  const [width, setWidth] = useState(1000);
+  const timelineRef = useRef();
+
+  // set up resizing once in browser
+  useEffect(() => {
+    setWidth(timelineRef.current.offsetWidth);
+    window.addEventListener('resize', () => {
+      setWidth(timelineRef.current.offsetWidth);
+    });
+  }, []);
+  
   console.log('inside Timeline')
   // if spans or dates are null, return error message
   if (!spans || !dates) {
@@ -105,16 +116,7 @@ export default function Timeline({ spans = timeSpans, dates = events }) {
     }
   });
 
-  const [width, setWidth] = useState(1000);
-  const timelineRef = useRef();
-
-  // set up resizing once in browser
-  useEffect(() => {
-    setWidth(timelineRef.current.offsetWidth);
-    window.addEventListener('resize', () => {
-      setWidth(timelineRef.current.offsetWidth);
-    });
-  }, []);
+  
 
   return (
     <div
