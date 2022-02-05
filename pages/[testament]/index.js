@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import { getCollection } from '/lib/mongodb';
 import Book from '/components/Book';
+import Timeline from '/components/Timeline';
 
 // TODO('add description')
 export default function Page({ books }) {
@@ -22,7 +23,7 @@ export default function Page({ books }) {
   };
 
   // set motion varients
-  const varients = {
+  const variants = {
     shelf: {
       together: { overflowX: 'hidden', backgroundColor: 'rgb(41 37 36)', },
       apart: { width: '75%', /*overflowX: 'scroll',*/ backgroundColor: 'rgb(168 162 158)', },
@@ -54,10 +55,11 @@ export default function Page({ books }) {
           </Link>
         </div>
 
+        {/* shelf */}
         <div className="flex flex-row justify-center items-center py-16 px-8 gap-6">
           <motion.div
             initial="together" animate="apart"
-            variants={varients.shelf} transition={{ duration: 1.5 }}
+            variants={variants.shelf} transition={{ duration: 1.5 }}
             className="flex flex-row justify-start h-80 rounded-3xl w-48 force-overflow scrollbar-light"
             style={{ width: ((testament === 'old') ? '14rem' : '10rem') }}
           >
@@ -65,7 +67,7 @@ export default function Page({ books }) {
             {/* render books from books prop */}
             {books.filter(book => book.testament === testament).map((book, index) => {
               return (
-                <motion.div key={index} variants={varients.book} transition={{ duration: 1.5 }}>
+                <motion.div key={index} variants={variants.book} transition={{ duration: 1.5 }}>
                   <Link href={`/${testament}/${book.name.toLowerCase()}`}>
                     <a>
                       <Book width={bookWidth(book.chapters)} title={book.name} />
@@ -78,6 +80,10 @@ export default function Page({ books }) {
           </motion.div>
         </div>
 
+        {/* timeline */}
+        <div className="w-screen overflow-x-auto scrollbar-light">
+          <Timeline />
+        </div>
       </main>
     </>
   );
@@ -100,8 +106,8 @@ export async function getStaticProps() {
   return {
     props: {
       books: books,
-    },
-  };
+    }
+  }
 }
 
 //
