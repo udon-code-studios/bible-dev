@@ -1,6 +1,7 @@
 // file: pages/[testament]/[book]/index.js
 
 import Head from 'next/head';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
@@ -54,7 +55,9 @@ export default function Page({ prev, devHistory, next }) {
               <Link href="/">
                 <a>
                   <div className="flex items-center space-x-3">
-                    <img src="/bible_stone-400.png" alt="bible" className="w-10 h-10"></img>
+                    <div className="w-10 h-10 relative">
+                      <Image src="/bible_stone-400.png" alt="bible" layout="fill" />
+                    </div>
                     <p className="font-sans font-bold text-xl">BibleDev</p>
                   </div>
                 </a>
