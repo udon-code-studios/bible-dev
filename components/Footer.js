@@ -1,8 +1,13 @@
+// file: components/Footer.js
+//
+// TODO('add description')
+//
+
 import { MailIcon } from '@heroicons/react/solid';
 
 export default function Footer() {
   return (
-    <div className="absolute bottom-0 flex justify-center items-center space-x-3 py-8 w-full bg-stone-900 text-stone-400">
+    <div className="flex justify-center items-center space-x-3 py-8 w-full bg-stone-900 text-stone-400">
 
       {/* twitter link */}
       <a href="https://twitter.com/subpar_program">
@@ -32,3 +37,6 @@ export default function Footer() {
     </div>
   );
 }
+
+//
+// end of file: components/Footer.js
