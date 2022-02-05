@@ -33,8 +33,8 @@ export default function Page({ prev, devHistory, next }) {
         <title>{book && capitalize(book)}</title>
       </Head>
 
-      <main>
-        <div className="flex flex-col bg-stone-900 text-stone-400 font-serif">
+      <main className="grow">
+        <div className="flex flex-col min-h-full bg-stone-900 text-stone-400 font-serif">
           {/* fade-in page contents on load */}
           <motion.div
             initial="hidden" animate="visible"
