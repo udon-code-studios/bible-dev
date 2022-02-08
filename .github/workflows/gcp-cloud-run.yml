@@ -7,7 +7,7 @@ on:
       - test-actions
 
 env:
-  GCP_PROJECT_ID: ${{ secrets.CLOUD_RUN_PROJECT_NAME }}
+  GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
   GCP_REGION: us-east4
   GCP_SERVICE: bible-dev
@@ -28,8 +28,7 @@ jobs:
       id: auth
       uses: google-github-actions/auth@v0
       with:
-        workload_identity_provider: asdf
-        service_account: asdf
+        credentials_json: GCP_SA_KEY
 
     # https://github.com/marketplace/actions/set-up-gcloud-cloud-sdk-environment
     - name: Setup Cloud SDK
