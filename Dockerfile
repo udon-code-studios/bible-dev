@@ -5,10 +5,8 @@
 
 FROM node:16-alpine
 
-#ARG MONGODB_URI
-#ARG MONGODB_DB
-ENV MONGODB_URI ${MONGODB_URI}
-ENV MONGODB_DB ${MONGODB_DB}
+ARG MONGODB_URI
+ARG MONGODB_DB
 
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 RUN apk add --no-cache libc6-compat
