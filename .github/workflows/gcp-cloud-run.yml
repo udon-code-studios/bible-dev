@@ -1,5 +1,4 @@
 # file: .github/workflows/cloud-run.yml
-#
 
 on:
   push:
