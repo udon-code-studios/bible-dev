@@ -1,6 +1,6 @@
 # file: .github/workflows/cloud-run.yml
 
-# prj2: bibledev-sa-0
+# spp-prj2: bibledev-sa-1
 
 on:
   push:
