@@ -9,7 +9,7 @@ env:
   GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
   GCP_REGION: us-east4
-  GCP_SERVICE: bible-dev-service
+  GCP_SERVICE: bible-dev  # cloud run service name
   MONGODB_URI: ${{ secrets.MONGODB_URI }}
   MONGODB_DB: ${{ secrets.MONGODB_DB }}
 
