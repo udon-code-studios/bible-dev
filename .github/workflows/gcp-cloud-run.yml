@@ -1,7 +1,5 @@
 # file: .github/workflows/cloud-run.yml
 
-# spp-prj2: bibledev-sa-1
-
 on:
   push:
     branches:
