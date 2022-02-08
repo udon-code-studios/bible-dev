@@ -6,8 +6,6 @@ on:
     branches:
       - test-actions
 
-name: Build and Deploy Container
-
 env:
   GCP_PROJECT_ID: ${{ secrets.CLOUD_RUN_PROJECT_NAME }}
   GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
@@ -17,7 +15,8 @@ env:
   MONGODB_DB: ${{ secrets.MONGODB_DB }}
 
 jobs:
-  deploy:
+  build-and-deploy:
+    name: Build and Deploy Container
     runs-on: ubuntu-latest
     steps:
     # https://github.com/marketplace/actions/checkout
