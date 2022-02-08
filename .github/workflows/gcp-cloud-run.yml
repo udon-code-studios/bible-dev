@@ -50,7 +50,6 @@ jobs:
         service: ${{ env.GCP_SERVICE }}
         image: gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_SERVICE }}:${{ github.sha }}
         region: ${{ env.GCP_REGION }}
-        env_vars: MONGODB_URI=${{ env.MONGODB_URI }}, MONGODB_DB=${{ env.MONGODB_URI }}
         flags: --allow-unauthenticated
 
     - name: Show Output
