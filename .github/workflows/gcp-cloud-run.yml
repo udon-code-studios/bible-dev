@@ -39,8 +39,8 @@ jobs:
 
     - name: Build and Push Container
       run: |-
-        docker build -t gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_SERVICE }}:${{ GITHUB_SHA }}
-        docker push gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_SERVICE }}:${{ GITHUB_SHA }}
+        docker build -t gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_SERVICE }}:${{ github.sha }}
+        docker push gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_SERVICE }}:${{ github.sha }}
 
     # https://github.com/marketplace/actions/deploy-to-cloud-run
     - name: Deploy to Cloud Run
@@ -48,7 +48,7 @@ jobs:
       uses: google-github-actions/deploy-cloudrun@v0
       with:
         service: ${{ env.GCP_SERVICE }}
-        image: gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_SERVICE }}:${{ env.GITHUB_SHA }}
+        image: gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_SERVICE }}:${{ github.sha }}
         region: ${{ env.GCP_REGION }}
         env_vars: MONGODB_URI=${{ env.MONGODB_URI }}, MONGODB_DB=${{ env.MONGODB_URI }}
 
