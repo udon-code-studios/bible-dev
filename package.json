@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p $PORT",
     "lint": "next lint"
   },
   "dependencies": {
@@ -13,7 +13,8 @@
     "mongodb": "^4.3.1",
     "next": "^12.0.10",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "sharp": "^0.30.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.1",
