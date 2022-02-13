@@ -4,13 +4,13 @@
 }
   
 .scrollbar-light::-webkit-scrollbar {
-  width: 0.5rem;
-  height: 0.5rem;
+  width: 0.4rem;
+  height: 0.4rem;
   background-color: rgb(168 162 158);
 }
   
 .scrollbar-light::-webkit-scrollbar-thumb {
-  border-radius: 0.2rem;
+  border-radius: 0.1rem;
   background-color: rgb(41 37 36);
 }
   
@@ -20,12 +20,12 @@
 }
   
 .scrollbar-dark::-webkit-scrollbar {
-  width: 0.5rem;
-  height: 0.5rem;
+  width: 0.4rem;
+  height: 0.4rem;
   background-color: rgb(41 37 36);
 }
   
 .scrollbar-dark::-webkit-scrollbar-thumb {
-  border-radius: 0.25rem;
+  border-radius: 0.1rem;
   background-color: rgb(168 162 158);
 }
