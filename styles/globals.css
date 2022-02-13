@@ -2,40 +2,4 @@
 @tailwind components;
 @tailwind utilities;
 
-
-/* stylized scrollbar begin */
-
-.force-overflow {
-  overflow: auto !important;
-  overflow-y: hidden !important;
-}
-
-.scrollbar-dark::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-  background: rgb(28, 25, 23);
-  border-radius: 4px;
-}
-
-.scrollbar-dark::-webkit-scrollbar-thumb {
-  background: rgb(168, 162, 158);
-  border-radius: 4px;
-}
-
-.scrollbar-light::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-  background: rgb(168, 162, 158);
-  border-radius: 4px;
-}
-
-.scrollbar-light::-webkit-scrollbar-thumb {
-  background: rgb(28, 25, 23);
-  border-radius: 4px;
-}
-
-.nobar::-webkit-scrollbar {
-  display: none;
-}
-
-/* stylized scrollbar end */
+@import 'scrollbar.css';
