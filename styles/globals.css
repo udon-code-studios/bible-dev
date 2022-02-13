@@ -2,39 +2,4 @@
 @tailwind components;
 @tailwind utilities;
 
-
-/* stylized scrollbar begin */
-
-.scrollbar-light {
-  scrollbar-width: thin;
-  scrollbar-color: rgb(41 37 36) rgb(168 162 158);
-}
-
-.scrollbar-light::-webkit-scrollbar {
-  width: 0.5rem;
-  height: 0.5rem;
-  background-color: rgb(168 162 158);
-}
-
-.scrollbar-light::-webkit-scrollbar-thumb {
-  border-radius: 0.2rem;
-  background-color: rgb(41 37 36);
-}
-
-.scrollbar-dark {
-  scrollbar-width: thin;
-  scrollbar-color: rgb(168 162 158) rgb(41 37 36);
-}
-
-.scrollbar-dark::-webkit-scrollbar {
-  width: 0.5rem;
-  height: 0.5rem;
-  background-color: rgb(41 37 36);
-}
-
-.scrollbar-dark::-webkit-scrollbar-thumb {
-  border-radius: 0.25rem;
-  background-color: rgb(168 162 158);
-}
-
-/* stylized scrollbar end */
+@import 'scrollbar.css';
