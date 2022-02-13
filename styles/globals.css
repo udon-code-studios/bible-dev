@@ -5,37 +5,36 @@
 
 /* stylized scrollbar begin */
 
-.force-overflow {
-  overflow: auto !important;
-  overflow-y: hidden !important;
-}
-
-.scrollbar-dark::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-  background: rgb(28, 25, 23);
-  border-radius: 4px;
-}
-
-.scrollbar-dark::-webkit-scrollbar-thumb {
-  background: rgb(168, 162, 158);
-  border-radius: 4px;
+.scrollbar-light {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(41 37 36) rgb(168 162 158);
 }
 
 .scrollbar-light::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-  background: rgb(168, 162, 158);
-  border-radius: 4px;
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: rgb(168 162 158);
 }
 
 .scrollbar-light::-webkit-scrollbar-thumb {
-  background: rgb(28, 25, 23);
-  border-radius: 4px;
+  border-radius: 0.2rem;
+  background-color: rgb(41 37 36);
 }
 
-.nobar::-webkit-scrollbar {
-  display: none;
+.scrollbar-dark {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(168 162 158) rgb(41 37 36);
+}
+
+.scrollbar-dark::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: rgb(41 37 36);
+}
+
+.scrollbar-dark::-webkit-scrollbar-thumb {
+  border-radius: 0.25rem;
+  background-color: rgb(168 162 158);
 }
 
 /* stylized scrollbar end */
