@@ -7,8 +7,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import Book from '/components/Book';
-import { getCollection } from '../lib/mongodb';
-import Searchbar from '../components/Searchbar';
+import { getCollection } from '/lib/mongodb';
+import SearchBar from '/components/SearchBar';
 
 // TODO('add description')
 export default function Page({ books }) {
@@ -75,7 +75,7 @@ export default function Page({ books }) {
 
       <main>
         {/* header */}
-        <div className="grid grid-flow-col justify-center py-4 z-10">
+        <div className="grid grid-flow-col justify-center py-4">
           <Link href="/">
             <a>
               <div className="flex items-center gap-4 text-4xl font-semibold">
@@ -86,7 +86,7 @@ export default function Page({ books }) {
               </div>
             </a>
           </Link>
-					<Searchbar books = { books }/>
+					<SearchBar books={ books }/>
         </div>
 
         <motion.div
@@ -144,6 +144,7 @@ export default function Page({ books }) {
   )
 }
 
+// Next docs: https://nextjs.org/docs/api-reference/data-fetching/get-static-props
 export async function getStaticProps() {
 	return {
 		props: {
