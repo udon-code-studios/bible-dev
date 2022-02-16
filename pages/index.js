@@ -146,12 +146,10 @@ export default function Page({ books }) {
 
 // Next docs: https://nextjs.org/docs/api-reference/data-fetching/get-static-props
 export async function getStaticProps() {
+	const books = await getCollection('books', {}, { _id: 0, name: 1, testament: 1 });
 	return {
 		props: {
-			books: (await getCollection('books')).map(book => ({
-				name: book.name,
-				testament: book.testament,
-			})),
+			books: books
 		}
 	};
 }
