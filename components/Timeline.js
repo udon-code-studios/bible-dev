@@ -73,7 +73,6 @@ export default function Timeline({ spans = timeSpans, dates = events }) {
     });
   }, []);
   
-  console.log('inside Timeline')
   // if spans or dates are null, return error message
   if (!spans || !dates) {
     return (

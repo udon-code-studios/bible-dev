@@ -1,15 +1,17 @@
 // file: pages/index.js
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import Book from '/components/Book';
+import { getCollection } from '/lib/mongodb';
+import SearchBar from '/components/SearchBar';
 
 // TODO('add description')
-export default function Page() {
+export default function Page({ books }) {
   const [view, setView] = useState('home'); // states: 'home', 'old', 'new'
   const router = useRouter(); // used to change routing programmatically
 
@@ -84,6 +86,7 @@ export default function Page() {
               </div>
             </a>
           </Link>
+					<SearchBar books={ books }/>
         </div>
 
         <motion.div
@@ -139,6 +142,16 @@ export default function Page() {
       </main>
     </>
   )
+}
+
+// Next docs: https://nextjs.org/docs/api-reference/data-fetching/get-static-props
+export async function getStaticProps() {
+	const books = await getCollection('books', {}, { _id: 0, name: 1, testament: 1 });
+	return {
+		props: {
+			books: books
+		}
+	};
 }
 
 //
