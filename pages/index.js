@@ -97,18 +97,30 @@ export default function Page({ books }) {
               initial="hidden" animate="visible"
               variants={variants.opacityVariants} transition={{ duration: 1 }}
             >
-              <div className="flex justify-center items-center py-14 px-8 overflow-hidden">
+              <div className="flex justify-center items-start py-14 px-8 overflow-hidden">
 
                 {/* overview text */}
                 <motion.div
                   animate={(view === 'home') ? 'show' : 'hide'}
                   variants={variants.overviewVariants} transition={{ when: 'beforeChildren', duration: 0.3 }}
-                  className="space-y-1"
                 >
-                  <motion.div variants={variants.sizeVariants} transition={{ duration: 0.7 }}>
-                    <h1 className="text-3xl font-serif font-bold">The Bible</h1>
-                    <p className="max-w-md">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                  <motion.div
+                    variants={variants.sizeVariants} transition={{ duration: 0.7 }}
+                    className="max-w-sm space-y-2 text-justify"
+                  >
+                    <h1 className="text-3xl text-center font-serif font-bold">The Bible</h1>
+                    <p>
+                      is a collection of scriptures held sacred by Christians, Jews, and Muslims around the globe.  With
+                      the earliest entry theorized to date back into the 2nd milenium BC, and the latest being authored
+                      by 110 AD, the Bible is a work that has experienced a long and storied history as passed through
+                      the hands of many authors and redactors.
+                    </p>
+                    <p>
+                      BibleDev is a community driven effort to explore and document the development history of each book
+                      through the ages. Who was Job? How long after Daniel was thrown into the Lions' den
+                      was his story recorded? When did the canonical gospels solidify into the texts we have today?
+                      These are the sorts of questions we hope you can find answers for as you explore and read the
+                      entries in this site.
                     </p>
                   </motion.div>
                 </motion.div>
@@ -147,7 +159,7 @@ export default function Page({ books }) {
 
           {/* footer */}
           <Footer />
-          
+
         </div>
       </body>
     </>
@@ -158,7 +170,7 @@ export default function Page({ books }) {
 export async function getStaticProps() {
   // load list of book names and testaments
   let books = require('/data/books.json');
-  
+
   return {
     props: {
       books: books
