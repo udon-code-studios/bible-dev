@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 //import { getCollection } from '/lib/mongodb';
 import Book from '/components/Book';
+import Footer from '/components/Footer';
 import Timeline from '/components/Timeline';
 
 export default function Testament({ oldWc, newWc, books }) {
@@ -32,21 +33,26 @@ export default function Testament({ oldWc, newWc, books }) {
         <title>{(testament === 'old') ? 'Old Testament' : 'New Testament'}</title>
       </Head>
 
-      <main>
-        {/* header */}
-        <div className="grid grid-flow-col justify-center py-4">
-          <Link href="/">
-            <a>
-              <div className="flex items-center gap-4 text-4xl font-semibold">
-                <div className="w-16 h-16 relative">
-                  <Image src="/bible.png" alt="bible" layout="fill" />
-                </div>
-                <h1>BibleDev</h1>
-              </div>
-            </a>
-          </Link>
-        </div>
+      <body>
+        <div className="relative flex flex-col justify-between min-h-screen bg-stone-400 text-stone-900">
 
+          {/* header and main content */}
+          <div>
+            {/* header */}
+            <div className="grid grid-flow-col justify-center py-4">
+              <Link href="/">
+                <a>
+                  <div className="flex items-center gap-4 text-4xl font-semibold">
+                    <div className="w-16 h-16 relative">
+                      <Image src="/bible.png" alt="bible" layout="fill" />
+                    </div>
+                    <h1>BibleDev</h1>
+                  </div>
+                </a>
+              </Link>
+            </div>
+
+            
         {/* shelf */}
         <div className="flex flex-row justify-center items-center py-10 px-8 gap-6">
           <motion.div
@@ -73,11 +79,17 @@ export default function Testament({ oldWc, newWc, books }) {
           </motion.div>
         </div>
 
-        {/* timeline 
-        <div className="w-screen overflow-x-auto scrollbar-light">
-          <Timeline />
-        </div>*/}
-      </main>
+            {/* timeline 
+            <div className="w-screen overflow-x-auto scrollbar-light">
+              <Timeline />
+            </div>*/}
+          </div>
+
+          {/* footer */}
+          <Footer />
+
+        </div>
+      </body>
     </>
   );
 }
