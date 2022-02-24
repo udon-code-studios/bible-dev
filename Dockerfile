@@ -2,12 +2,6 @@
 
 FROM node:16
 
-ARG MONGODB_URI
-ARG MONGODB_DB
-
-ENV MONGODB_URI ${MONGODB_URI}
-ENV MONGODB_DB ${MONGODB_DB}
-
 WORKDIR /app
 
 # install node packages
