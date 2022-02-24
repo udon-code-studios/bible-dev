@@ -5,23 +5,15 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
-import { getCollection } from '/lib/mongodb';
+//import { getCollection } from '/lib/mongodb';
 import Book from '/components/Book';
 import Footer from '/components/Footer';
 import Timeline from '/components/Timeline';
 
-// TODO('add description')
-export default function Page({ books }) {
+export default function Testament({ oldWc, newWc, books }) {
   // get testament from URL
   const router = useRouter();
   const { testament } = router.query;
-
-  // TODO('add description')
-  const bookWidth = (chapters) => {
-    const totalChapters = (testament === 'old') ? 929 : 260;
-    const remScaler = (testament === 'old') ? 100 : 70;
-    return (`${(chapters / totalChapters) * remScaler}rem`);
-  };
 
   // set motion varients
   const variants = {
@@ -60,31 +52,32 @@ export default function Page({ books }) {
               </Link>
             </div>
 
-            {/* shelf */}
-            <div className="flex flex-row justify-center items-center py-10 px-8 gap-6">
-              <motion.div
-                initial="together" animate="apart"
-                variants={variants.shelf} transition={{ duration: 1.5 }}
-                className="flex flex-row justify-start rounded-3xl pb-1 w-48 overflow-x-auto scrollbar-light"
-                style={{ width: ((testament === 'old') ? '14rem' : '10rem') }}
-              >
+            
+        {/* shelf */}
+        <div className="flex flex-row justify-center items-center py-10 px-8 gap-6">
+          <motion.div
+            initial="together" animate="apart"
+            variants={variants.shelf} transition={{ duration: 1.5 }}
+            className="flex flex-row justify-start rounded-3xl pb-1 w-48 overflow-x-auto scrollbar-light"
+            style={{ width: ((testament === 'old') ? '14rem' : '10rem') }}
+          >
 
-                {/* render books from books prop */}
-                {books.filter(book => book.testament === testament).map((book, index) => {
-                  return (
-                    <motion.div key={index} variants={variants.book} transition={{ duration: 1.5 }}
-                    >
-                      <Link href={`/${testament}/${book.name.toLowerCase()}`}>
-                        <a>
-                          <Book width={bookWidth(book.chapters)} title={book.name} />
-                        </a>
-                      </Link>
-                    </motion.div>
-                  );
-                })}
+            {/* render books from books prop */}
+            {books.filter(book => book.testament === testament).map((book, index) => {
+              return (
+                <motion.div key={index} variants={variants.book} transition={{ duration: 1.5 }}
+                >
+                  <Link href={`/${testament}/${book.title.toLowerCase()}`}>
+                    <a>
+                      <Book width={`${book.percent * 0.9}rem`} title={book.title} />
+                    </a>
+                  </Link>
+                </motion.div>
+              );
+            })}
 
-              </motion.div>
-            </div>
+          </motion.div>
+        </div>
 
             {/* timeline 
             <div className="w-screen overflow-x-auto scrollbar-light">
@@ -114,7 +107,30 @@ export async function getStaticPaths() {
 
 // Next docs: https://nextjs.org/docs/api-reference/data-fetching/get-static-props
 export async function getStaticProps() {
-  const books = await getCollection('books', {}, { _id: 0 });
+  // load list of book names and testaments
+  let books = require('/data/books.json');
+
+  // calculate testament word counts
+  let oldWC = 0;
+  let newWC = 0;
+  for (let book of books) {
+    if (book.testament === 'old') {
+      oldWC += book.wc;
+    } else {
+      newWC += book.wc;
+    }
+  }
+
+  // calculate percentage legnths of testament for each book
+  books = books.map(book => {
+    let percent = (book.wc / ((book.testament === 'old') ? oldWC : newWC)) * 100;
+    return ({
+      title: book.title,
+      testament: book.testament,
+      percent: percent,
+    });
+  });
+
   return {
     props: {
       books: books,
