@@ -10,8 +10,6 @@ env:
   GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
   GCP_REGION: us-east4
   GCP_SERVICE: bible-dev  # cloud run service name
-  MONGODB_URI: ${{ secrets.MONGODB_URI }}
-  MONGODB_DB: ${{ secrets.MONGODB_DB }}
 
 jobs:
   build-and-deploy:
@@ -39,7 +37,7 @@ jobs:
 
     - name: Build and Push Container
       run: |-
-        docker build --build-arg MONGODB_URI --build-arg MONGODB_DB -t gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_SERVICE }}:${{ github.sha }} .
+        docker build -t gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_SERVICE }}:${{ github.sha }} .
         docker push gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_SERVICE }}:${{ github.sha }}
 
     # https://github.com/marketplace/actions/deploy-to-cloud-run
