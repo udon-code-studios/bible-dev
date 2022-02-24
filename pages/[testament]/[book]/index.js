@@ -8,6 +8,7 @@ import { motion } from 'framer-motion';
 import { getCollection } from '/lib/mongodb';
 import { ArrowSmUpIcon } from '@heroicons/react/outline';
 import Markdown from '/components/Markdown';
+import Footer from '/components/Footer';
 
 // TODO('add description')
 export default function Page({ prev, devHistory, next }) {
@@ -34,9 +35,10 @@ export default function Page({ prev, devHistory, next }) {
         <title>{book && capitalize(book)}</title>
       </Head>
 
-      <main className="grow">
-        <div className="flex flex-col min-h-full bg-stone-900 text-stone-400 font-serif">
-          {/* fade-in page contents on load */}
+      <main>
+        <div className="relative flex flex-col justify-between min-h-screen bg-stone-900 text-stone-400 font-serif">
+
+          {/* header and main content (motion: fade-in on load) */}
           <motion.div
             initial="hidden" animate="visible"
             variants={variants.opacity} transition={{ duration: 1 }}
@@ -115,10 +117,13 @@ export default function Page({ prev, devHistory, next }) {
               }
             </div>
 
-            {/* timeline */}
-            <div className="my-10 h-0 bg-stone-400"></div>
+            {/* timeline goes here */}
 
           </motion.div>
+
+          {/* footer */}
+          <Footer />
+
         </div>
       </main>
     </>
