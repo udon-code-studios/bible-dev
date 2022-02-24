@@ -7,7 +7,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import Book from '/components/Book';
-import { getCollection } from '/lib/mongodb';
 import SearchBar from '/components/SearchBar';
 import Footer from '/components/Footer';
 
@@ -157,7 +156,9 @@ export default function Page({ books }) {
 
 // Next docs: https://nextjs.org/docs/api-reference/data-fetching/get-static-props
 export async function getStaticProps() {
-  const books = await getCollection('books', {}, { _id: 0, name: 1, testament: 1 });
+  // load list of book names and testaments
+  let books = require('/data/books.json');
+  
   return {
     props: {
       books: books
