@@ -5,11 +5,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
-import { getCollection } from '/lib/mongodb';
 import { ArrowSmUpIcon } from '@heroicons/react/outline';
+import Markdown from '/components/Markdown';
+import Footer from '/components/Footer';
 
 // TODO('add description')
-export default function Page({ prev, devHistory, next }) {
+export default function Page({ prev, next, entry, contributors, timeline }) {
   // get book title from URL
   const router = useRouter();
   const { book } = router.query;
@@ -33,9 +34,10 @@ export default function Page({ prev, devHistory, next }) {
         <title>{book && capitalize(book)}</title>
       </Head>
 
-      <main className="grow">
-        <div className="flex flex-col min-h-full bg-stone-900 text-stone-400 font-serif">
-          {/* fade-in page contents on load */}
+      <main>
+        <div className="relative flex flex-col justify-between min-h-screen bg-stone-900 text-stone-400 font-serif">
+
+          {/* header and main content (motion: fade-in on load) */}
           <motion.div
             initial="hidden" animate="visible"
             variants={variants.opacity} transition={{ duration: 1 }}
@@ -70,10 +72,10 @@ export default function Page({ prev, devHistory, next }) {
               {/* previous book */}
               {(prev) ?
                 <div className="flex flex-col justify-center">
-                  <Link href={`/${prev.testament.toLowerCase()}/${prev.name.toLowerCase()}`}>
+                  <Link href={`/${prev.testament}/${prev.title.toLowerCase()}`}>
                     <a className='block w-20 h-5/6'>
                       <div className="flex justify-center items-center min-h-full rounded-r-3xl bg-stone-400 text-stone-900 text-3xl">
-                        <div className="rotate-90 whitespace-nowrap capitalize">{prev.name}</div>
+                        <div className="rotate-90 whitespace-nowrap capitalize">{prev.title}</div>
                       </div>
                     </a>
                   </Link>
@@ -90,7 +92,10 @@ export default function Page({ prev, devHistory, next }) {
                     <h1 className="text-2xl">900 BC - 700 BC</h1>
                   </div>
                   <div className="space-y-4 overflow-y-auto scrollbar-dark">
-                    {devHistory.description}
+                    {/* Render development history entry as markdown */}
+                    <Markdown>
+                      { entry }
+                    </Markdown>
                   </div>
                 </div>
               </div>
@@ -98,10 +103,10 @@ export default function Page({ prev, devHistory, next }) {
               {/* next book */}
               {(next) ?
                 <div className="flex flex-col justify-center">
-                  <Link href={`/${next.testament.toLowerCase()}/${next.name.toLowerCase()}`}>
+                  <Link href={`/${next.testament}/${next.title.toLowerCase()}`}>
                     <a className='block w-20 h-5/6'>
                       <div className="flex justify-center items-center min-h-full rounded-l-3xl bg-stone-400 text-stone-900 text-3xl">
-                        <div className="rotate-90 whitespace-nowrap capitalize">{next.name}</div>
+                        <div className="rotate-90 whitespace-nowrap capitalize">{next.title}</div>
                       </div>
                     </a>
                   </Link>
@@ -111,10 +116,13 @@ export default function Page({ prev, devHistory, next }) {
               }
             </div>
 
-            {/* timeline */}
-            <div className="my-10 h-0 bg-stone-400"></div>
+            {/* timeline goes here */}
 
           </motion.div>
+
+          {/* footer */}
+          <Footer />
+
         </div>
       </main>
     </>
@@ -123,12 +131,12 @@ export default function Page({ prev, devHistory, next }) {
 
 // Next docs: https://nextjs.org/docs/api-reference/data-fetching/get-static-paths
 export async function getStaticPaths() {
-  const data = await getCollection('books', {}, { _id: 0, name: 1, testament: 1 });
-  const paths = data.map(book => {
+  const books = require('/data/books.json');
+  const paths = books.map(book => {
     return ({
       params: {
-        testament: book.testament.toLowerCase(),
-        book: book.name.toLowerCase(),
+        testament: book.testament,
+        book: book.title.toLowerCase(),
       }
     })
   });
@@ -141,23 +149,37 @@ export async function getStaticPaths() {
 
 // Next docs: https://nextjs.org/docs/api-reference/data-fetching/get-static-props
 export async function getStaticProps({ params }) {
-  // pull book development history entries matching book parameter
-  let devHistory = await getCollection('devHistory', { name: { $regex: new RegExp(`${params.book}`), $options: 'i' } });
-  devHistory = devHistory[0]; // convert devHistory from 1 item array to object
+  // load list of book names and testaments
+  const books = require('/data/books.json');
 
-  // pull list of book names and testaments
-  const bookList = await getCollection('books', {}, { _id: 0, name: 1, testament: 1 });
+  // extract previous and next books from books if they exist
+  const idx = books.findIndex((book) => book.title.toLowerCase() === params.book);
+  const prev = (idx > 0) ? books[idx - 1] : null;
+  const next = (idx < books.length - 1) ? books[idx + 1] : null;
 
-  // extract previous and next books from bookList if they exist
-  const idx = bookList.findIndex((book) => book.name === devHistory.name);
-  const prev = (idx > 0) ? bookList[idx - 1] : null;
-  const next = (idx < bookList.length - 1) ? bookList[idx + 1] : null;
+  // read development history entry from /data/books/[book]/entry.md
+  // read contributors from /data/books/[book]/contributors.json
+  // read timeline data from /data/books/[book]/timeline.json
+
+  const fs = require('fs');
+  const path = require('path');
+
+  const bookDirectory = path.join(process.cwd(), `data/books/${params.testament}/${params.book}`);
+  const entryFilePath = path.join(bookDirectory, 'entry.md');
+  const contributorsFilePath = path.join(bookDirectory, 'contributors.json');
+  const timelineFilePath = path.join(bookDirectory, 'timeline.json');
+
+  const entryMarkdown = fs.readFileSync(entryFilePath, 'utf8');
+  const contributors = JSON.parse(fs.readFileSync(contributorsFilePath, 'utf8'));
+  const timeline = JSON.parse(fs.readFileSync(timelineFilePath, 'utf8'));
 
   return ({
     props: {
       prev: prev,
-      devHistory: devHistory,
       next: next,
+      entry: entryMarkdown,
+      contributors: contributors,
+      timeline: timeline,
     },
   });
 }

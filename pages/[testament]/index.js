@@ -5,22 +5,15 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
-import { getCollection } from '/lib/mongodb';
+//import { getCollection } from '/lib/mongodb';
 import Book from '/components/Book';
+import Footer from '/components/Footer';
 import Timeline from '/components/Timeline';
 
-// TODO('add description')
-export default function Page({ books }) {
+export default function Testament({ oldWc, newWc, books }) {
   // get testament from URL
   const router = useRouter();
   const { testament } = router.query;
-
-  // TODO('add description')
-  const bookWidth = (chapters) => {
-    const totalChapters = (testament === 'old') ? 929 : 260;
-    const remScaler = (testament === 'old') ? 100 : 70;
-    return (`${(chapters / totalChapters) * remScaler}rem`);
-  };
 
   // set motion varients
   const variants = {
@@ -40,21 +33,26 @@ export default function Page({ books }) {
         <title>{(testament === 'old') ? 'Old Testament' : 'New Testament'}</title>
       </Head>
 
-      <main>
-        {/* header */}
-        <div className="grid grid-flow-col justify-center py-4">
-          <Link href="/">
-            <a>
-              <div className="flex items-center gap-4 text-4xl font-semibold">
-                <div className="w-16 h-16 relative">
-                  <Image src="/bible.png" alt="bible" layout="fill" />
-                </div>
-                <h1>BibleDev</h1>
-              </div>
-            </a>
-          </Link>
-        </div>
+      <body>
+        <div className="relative flex flex-col justify-between min-h-screen bg-stone-400 text-stone-900">
 
+          {/* header and main content */}
+          <div>
+            {/* header */}
+            <div className="grid grid-flow-col justify-center py-4">
+              <Link href="/">
+                <a>
+                  <div className="flex items-center gap-4 text-4xl font-semibold">
+                    <div className="w-16 h-16 relative">
+                      <Image src="/bible.png" alt="bible" layout="fill" />
+                    </div>
+                    <h1>BibleDev</h1>
+                  </div>
+                </a>
+              </Link>
+            </div>
+
+            
         {/* shelf */}
         <div className="flex flex-row justify-center items-center py-10 px-8 gap-6">
           <motion.div
@@ -69,9 +67,9 @@ export default function Page({ books }) {
               return (
                 <motion.div key={index} variants={variants.book} transition={{ duration: 1.5 }}
                 >
-                  <Link href={`/${testament}/${book.name.toLowerCase()}`}>
+                  <Link href={`/${testament}/${book.title.toLowerCase()}`}>
                     <a>
-                      <Book width={bookWidth(book.chapters)} title={book.name} />
+                      <Book width={`${book.percent * 0.9}rem`} title={book.title} />
                     </a>
                   </Link>
                 </motion.div>
@@ -81,11 +79,17 @@ export default function Page({ books }) {
           </motion.div>
         </div>
 
-        {/* timeline 
-        <div className="w-screen overflow-x-auto scrollbar-light">
-          <Timeline />
-        </div>*/}
-      </main>
+            {/* timeline 
+            <div className="w-screen overflow-x-auto scrollbar-light">
+              <Timeline />
+            </div>*/}
+          </div>
+
+          {/* footer */}
+          <Footer />
+
+        </div>
+      </body>
     </>
   );
 }
@@ -103,7 +107,30 @@ export async function getStaticPaths() {
 
 // Next docs: https://nextjs.org/docs/api-reference/data-fetching/get-static-props
 export async function getStaticProps() {
-  const books = await getCollection('books', {}, { _id: 0 });
+  // load list of book names and testaments
+  let books = require('/data/books.json');
+
+  // calculate testament word counts
+  let oldWC = 0;
+  let newWC = 0;
+  for (let book of books) {
+    if (book.testament === 'old') {
+      oldWC += book.wc;
+    } else {
+      newWC += book.wc;
+    }
+  }
+
+  // calculate percentage legnths of testament for each book
+  books = books.map(book => {
+    let percent = (book.wc / ((book.testament === 'old') ? oldWC : newWC)) * 100;
+    return ({
+      title: book.title,
+      testament: book.testament,
+      percent: percent,
+    });
+  });
+
   return {
     props: {
       books: books,

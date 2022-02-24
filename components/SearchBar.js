@@ -73,17 +73,17 @@ export default function SearchBar({ books }) {
                 e.preventDefault();
                 const idx = (typeof selected !== 'number') ? searchItems.length - 1 : (selected > 0) ? selected - 1 : searchItems.length - 1;
                 setSelected(idx);
-                searchRef.current.value = searchItems[idx].name;
+                searchRef.current.value = searchItems[idx].title;
               } else if (e.key === 'ArrowDown') {
                 // move selected item down
 
                 e.preventDefault();
                 const idx = (typeof selected !== 'number') ? 0 : (selected < searchItems.length - 1) ? selected + 1 : 0;
                 setSelected(idx);
-                searchRef.current.value = searchItems[idx].name;
+                searchRef.current.value = searchItems[idx].title;
               } else if (e.key === 'Enter' && searchItems[selected]) {
                 // navigate to the selected item
-                router.push(`/${searchItems[selected].testament}/${searchItems[selected].name.toLowerCase()}`);
+                router.push(`/${searchItems[selected].testament}/${searchItems[selected].title.toLowerCase()}`);
               }
             }
           }
@@ -98,9 +98,9 @@ export default function SearchBar({ books }) {
               setInputValue(inputText);
               if (inputText.length > 0) { // there is content
                 // match items
-                let searchedBooks = books.filter(book => book.name.toLowerCase().includes(inputText.toLowerCase()));
+                let searchedBooks = books.filter(book => book.title.toLowerCase().includes(inputText.toLowerCase()));
                 // sort by earliest occorence of search first
-                searchedBooks = searchedBooks.sort((first, second) => first.name.toLowerCase().indexOf(inputText) - second.name.toLowerCase().indexOf(inputText));
+                searchedBooks = searchedBooks.sort((first, second) => first.title.toLowerCase().indexOf(inputText) - second.title.toLowerCase().indexOf(inputText));
                 // limit the length of the searched items
 								// uncomment to put a limit on number of results
                 // searchedBooks.length = Math.min(searchedBooks.length, Infinity);
@@ -113,13 +113,13 @@ export default function SearchBar({ books }) {
             }
           }
           onKeyDown={
-						// if the current search value is a book name
+						// if the current search value is a book title
 						// navigate to that book
             (e) => {
               if (e.key === 'Enter') {
-                if (books.map(book => book.name.toLowerCase()).includes(e.target.value.toLowerCase())) {
-                  const targetBook = books.find(book => book.name.toLowerCase() === e.target.value.toLowerCase());
-                  router.push(`/${targetBook.testament}/${targetBook.name.toLowerCase()}`)
+                if (books.map(book => book.title.toLowerCase()).includes(e.target.value.toLowerCase())) {
+                  const targetBook = books.find(book => book.title.toLowerCase() === e.target.value.toLowerCase());
+                  router.push(`/${targetBook.testament}/${targetBook.title.toLowerCase()}`)
                 }
               }
             }
@@ -139,22 +139,22 @@ export default function SearchBar({ books }) {
 									<div className="relative">
 										{searchItems.map((item, idx) => (
 											<div key={idx}>
-												<Link href={`/${item.testament}/${item.name.toLowerCase()}`} className="w-full">
+												<Link href={`/${item.testament}/${item.title.toLowerCase()}`} className="w-full">
 													<a
 														className="block w-full rounded-xl"
 														style={{ backgroundColor: (idx === selected) ? 'rgba(0, 0, 0, .2)' : 'transparent' }}
 													>
 														<div className="flex justify-center w-full">
 															<p className="capitalize">
-																{item.name.substring(0, item.name.toLowerCase().indexOf(inputValue))}
+																{item.title.substring(0, item.title.toLowerCase().indexOf(inputValue))}
 															</p>
 															<strong style={{
-																textTransform: item.name.toLowerCase().indexOf(inputValue) === 0 ? 'capitalize' : ''
+																textTransform: item.title.toLowerCase().indexOf(inputValue) === 0 ? 'capitalize' : ''
 															}}>
 																{inputValue}
 															</strong>
 															<p>
-																{item.name.substring(item.name.toLowerCase().indexOf(inputValue) + inputValue.length)}
+																{item.title.substring(item.title.toLowerCase().indexOf(inputValue) + inputValue.length)}
 															</p>
 														</div>
 													</a>
