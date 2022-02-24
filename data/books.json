@@ -1,0 +1,332 @@
+[
+    {
+        "title": "Genesis",
+        "testament": "old",
+        "wc": 38262
+    },
+    {
+        "title": "Exodus",
+        "testament": "old",
+        "wc": 32685
+    },
+    {
+        "title": "Leviticus",
+        "testament": "old",
+        "wc": 24541
+    },
+    {
+        "title": "Numbers",
+        "testament": "old",
+        "wc": 32896
+    },
+    {
+        "title": "Deuteronomy",
+        "testament": "old",
+        "wc": 28352
+    },
+    {
+        "title": "Joshua",
+        "testament": "old",
+        "wc": 18854
+    },
+    {
+        "title": "Judges",
+        "testament": "old",
+        "wc": 18966
+    },
+    {
+        "title": "Ruth",
+        "testament": "old",
+        "wc": 2574
+    },
+    {
+        "title": "1 Samuel",
+        "testament": "old",
+        "wc": 25048
+    },
+    {
+        "title": "2 Samuel",
+        "testament": "old",
+        "wc": 20600
+    },
+    {
+        "title": "1 Kings",
+        "testament": "old",
+        "wc": 24513
+    },
+    {
+        "title": "2 Kings",
+        "testament": "old",
+        "wc": 23517
+    },
+    {
+        "title": "1 Chronicles",
+        "testament": "old",
+        "wc": 20365
+    },
+    {
+        "title": "2 Chronicles",
+        "testament": "old",
+        "wc": 26069
+    },
+    {
+        "title": "Ezra",
+        "testament": "old",
+        "wc": 7440
+    },
+    {
+        "title": "Nehemiah",
+        "testament": "old",
+        "wc": 10480
+    },
+    {
+        "title": "Esther",
+        "testament": "old",
+        "wc": 5633
+    },
+    {
+        "title": "Job",
+        "testament": "old",
+        "wc": 18098
+    },
+    {
+        "title": "Psalms",
+        "testament": "old",
+        "wc": 42704
+    },
+    {
+        "title": "Proverbs",
+        "testament": "old",
+        "wc": 15038
+    },
+    {
+        "title": "Ecclesiastes",
+        "testament": "old",
+        "wc": 5579
+    },
+    {
+        "title": "Song of Solomon",
+        "testament": "old",
+        "wc": 2658
+    },
+    {
+        "title": "Isaiah",
+        "testament": "old",
+        "wc": 37036
+    },
+    {
+        "title": "Jeremiah",
+        "testament": "old",
+        "wc": 42654
+    },
+    {
+        "title": "Lamentations",
+        "testament": "old",
+        "wc": 3411
+    },
+    {
+        "title": "Ezekiel",
+        "testament": "old",
+        "wc": 39401
+    },
+    {
+        "title": "Daniel",
+        "testament": "old",
+        "wc": 11602
+    },
+    {
+        "title": "Hosea",
+        "testament": "old",
+        "wc": 5174
+    },
+    {
+        "title": "Joel",
+        "testament": "old",
+        "wc": 2033
+    },
+    {
+        "title": "Amos",
+        "testament": "old",
+        "wc": 4216
+    },
+    {
+        "title": "Obadiah",
+        "testament": "old",
+        "wc": 669
+    },
+    {
+        "title": "Jonah",
+        "testament": "old",
+        "wc": 1320
+    },
+    {
+        "title": "Micah",
+        "testament": "old",
+        "wc": 3152
+    },
+    {
+        "title": "Nahum",
+        "testament": "old",
+        "wc": 1284
+    },
+    {
+        "title": "Habakkuk",
+        "testament": "old",
+        "wc": 1475
+    },
+    {
+        "title": "Zephaniah",
+        "testament": "old",
+        "wc": 1616
+    },
+    {
+        "title": "Haggai",
+        "testament": "old",
+        "wc": 1130
+    },
+    {
+        "title": "Zechariah",
+        "testament": "old",
+        "wc": 6443
+    },
+    {
+        "title": "Malachi",
+        "testament": "old",
+        "wc": 1781
+    },
+    {
+        "title": "Matthew",
+        "testament": "new",
+        "wc": 23343
+    },
+    {
+        "title": "Mark",
+        "testament": "new",
+        "wc": 14949
+    },
+    {
+        "title": "Luke",
+        "testament": "new",
+        "wc": 25640
+    },
+    {
+        "title": "John",
+        "testament": "new",
+        "wc": 18658
+    },
+    {
+        "title": "Acts",
+        "testament": "new",
+        "wc": 24229
+    },
+    {
+        "title": "Romans",
+        "testament": "new",
+        "wc": 9422
+    },
+    {
+        "title": "1 Corinthians",
+        "testament": "new",
+        "wc": 9462
+    },
+    {
+        "title": "2 Corinthians",
+        "testament": "new",
+        "wc": 6046
+    },
+    {
+        "title": "Galations",
+        "testament": "new",
+        "wc": 3084
+    },
+    {
+        "title": "Ephesians",
+        "testament": "new",
+        "wc": 3022
+    },
+    {
+        "title": "Philippians",
+        "testament": "new",
+        "wc": 2183
+    },
+    {
+        "title": "Colossians",
+        "testament": "new",
+        "wc": 1979
+    },
+    {
+        "title": "1 Thessalonians",
+        "testament": "new",
+        "wc": 1837
+    },
+    {
+        "title": "2 Thessalonians",
+        "testament": "new",
+        "wc": 1022
+    },
+    {
+        "title": "1 Timothy",
+        "testament": "new",
+        "wc": 2244
+    },
+    {
+        "title": "2 Timothy",
+        "testament": "new",
+        "wc": 1666
+    },
+    {
+        "title": "Titus",
+        "testament": "new",
+        "wc": 896
+    },
+    {
+        "title": "Philemon",
+        "testament": "new",
+        "wc": 430
+    },
+    {
+        "title": "Hebrews",
+        "testament": "new",
+        "wc": 6897
+    },
+    {
+        "title": "James",
+        "testament": "new",
+        "wc": 2304
+    },
+    {
+        "title": "1 Peter",
+        "testament": "new",
+        "wc": 2476
+    },
+    {
+        "title": "2 Peter",
+        "testament": "new",
+        "wc": 1553
+    },
+    {
+        "title": "1 John",
+        "testament": "new",
+        "wc": 2517
+    },
+    {
+        "title": "2 John",
+        "testament": "new",
+        "wc": 298
+    },
+    {
+        "title": "3 John",
+        "testament": "new",
+        "wc": 294
+    },
+    {
+        "title": "Jude",
+        "testament": "new",
+        "wc": 608
+    },
+    {
+        "title": "Revelation",
+        "testament": "new",
+        "wc": 11952
+    }
+]
