@@ -5,22 +5,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
-import { getCollection } from '/lib/mongodb';
+//import { getCollection } from '/lib/mongodb';
 import Book from '/components/Book';
 import Timeline from '/components/Timeline';
 
-// TODO('add description')
-export default function Page({ books }) {
+export default function Testament({ oldWc, newWc, books }) {
   // get testament from URL
   const router = useRouter();
   const { testament } = router.query;
-
-  // TODO('add description')
-  const bookWidth = (chapters) => {
-    const totalChapters = (testament === 'old') ? 929 : 260;
-    const remScaler = (testament === 'old') ? 100 : 70;
-    return (`${(chapters / totalChapters) * remScaler}rem`);
-  };
 
   // set motion varients
   const variants = {
@@ -69,9 +61,9 @@ export default function Page({ books }) {
               return (
                 <motion.div key={index} variants={variants.book} transition={{ duration: 1.5 }}
                 >
-                  <Link href={`/${testament}/${book.name.toLowerCase()}`}>
+                  <Link href={`/${testament}/${book.title.toLowerCase()}`}>
                     <a>
-                      <Book width={bookWidth(book.chapters)} title={book.name} />
+                      <Book width={`${book.percent * 0.9}rem`} title={book.title} />
                     </a>
                   </Link>
                 </motion.div>
@@ -103,7 +95,30 @@ export async function getStaticPaths() {
 
 // Next docs: https://nextjs.org/docs/api-reference/data-fetching/get-static-props
 export async function getStaticProps() {
-  const books = await getCollection('books', {}, { _id: 0 });
+  // load list of book names and testaments
+  let books = require('/data/books.json');
+
+  // calculate testament word counts
+  let oldWC = 0;
+  let newWC = 0;
+  for (let book of books) {
+    if (book.testament === 'old') {
+      oldWC += book.wc;
+    } else {
+      newWC += book.wc;
+    }
+  }
+
+  // calculate percentage legnths of testament for each book
+  books = books.map(book => {
+    let percent = (book.wc / ((book.testament === 'old') ? oldWC : newWC)) * 100;
+    return ({
+      title: book.title,
+      testament: book.testament,
+      percent: percent,
+    });
+  });
+
   return {
     props: {
       books: books,
