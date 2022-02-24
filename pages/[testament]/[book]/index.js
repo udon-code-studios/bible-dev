@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import { getCollection } from '/lib/mongodb';
 import { ArrowSmUpIcon } from '@heroicons/react/outline';
-import ReactMarkdown from 'react-markdown';
+import Markdown from '/components/Markdown';
 
 // TODO('add description')
 export default function Page({ prev, devHistory, next }) {
@@ -92,27 +92,9 @@ export default function Page({ prev, devHistory, next }) {
                   </div>
                   <div className="space-y-4 overflow-y-auto scrollbar-dark">
                     {/* Render as markdown */}
-                    <ReactMarkdown
-                      components={{
-                        // bypass some default tailwind stuff
-                        h1: ({ node, ...props }) => <span className="text-6xl" {...props}></span>,
-                        h2: ({ node, ...props }) => <span className="text-5xl" {...props}></span>,
-                        h3: ({ node, ...props }) => <span className="text-4xl" {...props}></span>,
-                        h4: ({ node, ...props }) => <span className="text-3xl" {...props}></span>,
-                        h5: ({ node, ...props }) => <span className="text-2xl" {...props}></span>,
-                        h6: ({ node, ...props }) => <span className="text-xl" {...props}></span>,
-                        // use next Link instead of <a>
-                        a: ({ node, ...props }) => (
-                          <Link href = { props.href }>
-                            <a className="underline hover:text-blue-600">
-                              {props.children[0]}
-                            </a>
-                          </Link>
-                        )
-                      }}
-                    >
+                    <Markdown>
                       { devHistory.description }
-                    </ReactMarkdown>
+                    </Markdown>
                   </div>
                 </div>
               </div>
