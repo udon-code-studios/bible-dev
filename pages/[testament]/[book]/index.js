@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import { ArrowSmUpIcon } from '@heroicons/react/outline';
+import Markdown from '/components/Markdown';
 import Footer from '/components/Footer';
 
 // TODO('add description')
@@ -91,7 +92,10 @@ export default function Page({ prev, next, entry, contributors, timeline }) {
                     <h1 className="text-2xl">900 BC - 700 BC</h1>
                   </div>
                   <div className="space-y-4 overflow-y-auto scrollbar-dark">
-                    {entry}
+                    {/* Render development history entry as markdown */}
+                    <Markdown>
+                      { entry }
+                    </Markdown>
                   </div>
                 </div>
               </div>
