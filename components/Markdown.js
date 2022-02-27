@@ -1,13 +1,16 @@
 import ReactMarkdown from 'react-markdown';
 import Link from 'next/link';
-import React, { Component, createRef, useRef } from 'react';
+import React, { Component, createRef } from 'react';
 
+// using class so we can have an array of React.createRef (doesn't work in functional components)
 export default class Markdown extends Component {
   constructor(props) {
     super(props)
     const { references } = this.props;
     this.currentRef = 0;
 
+    // array of refs for each of the references we link to.
+    // used for scrolling to and then focusing
     this.referenceRefs = Array(references.length).fill().map(_ => createRef());
   }
   render() {
