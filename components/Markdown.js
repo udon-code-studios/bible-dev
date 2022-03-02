@@ -1,6 +1,6 @@
 import ReactMarkdown from 'react-markdown';
 import Link from 'next/link';
-import React, { Component, createRef } from 'react';
+import { Component, createRef, Fragment } from 'react';
 
 // using class so we can have an array of React.createRef (doesn't work in functional components)
 export default class Markdown extends Component {
@@ -35,7 +35,7 @@ export default class Markdown extends Component {
               </Link>
             ),
             p: ({ node, ...props }) => {
-              props.children = props.children.map(child => {
+              props.children = props.children.map((child, idx) => {
                 if (typeof child === 'string') {
                   // if string check for [x] which signals reference
                   // split by reference with regex
@@ -46,14 +46,14 @@ export default class Markdown extends Component {
                   Array(child.length - 1).fill().forEach((_, idx) => {
                     child.splice(originalLength - 1 - idx,
                       0,
-                      <sup>
+                      <sup key={idx}>
                         <a
                           href='#'
                           onClick={(e) => {
                             e.preventDefault();
                             if (!this.referenceRefs[this.currentRef - idx - this.currentRef / 2 - 1]) return;
                             const current = this.referenceRefs[this.currentRef - idx - this.currentRef / 2 - 1].current;
-                            current.scrollIntoView();
+                            current.scrollIntoView({ behavior: 'smooth' });
                             current.focus();
                           }}
                         >
@@ -64,9 +64,10 @@ export default class Markdown extends Component {
                       </sup>
                     )
                   });
-                  return <>{child}</>;
                 }
-                else return child;
+								// using React.Fragment to prevent key warning
+								// you can't have props of a <></>, but you can if you use React.Fragment
+                return <Fragment key={idx}>{child}</Fragment>
               })
               return <p {...props} />
             }
