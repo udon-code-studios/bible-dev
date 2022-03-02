@@ -10,7 +10,7 @@ import Markdown from '/components/Markdown';
 import Footer from '/components/Footer';
 
 // TODO('add description')
-export default function Page({ prev, next, entry, contributors, timeline }) {
+export default function Page({ prev, next, entry, contributors, timeline, references }) {
   // get book title from URL
   const router = useRouter();
   const { book } = router.query;
@@ -93,7 +93,7 @@ export default function Page({ prev, next, entry, contributors, timeline }) {
                   </div>
                   <div className="space-y-4 overflow-y-auto scrollbar-dark">
                     {/* Render development history entry as markdown */}
-                    <Markdown>
+                    <Markdown references = { references }>
                       { entry }
                     </Markdown>
                   </div>
@@ -168,10 +168,12 @@ export async function getStaticProps({ params }) {
   const entryFilePath = path.join(bookDirectory, 'entry.md');
   const contributorsFilePath = path.join(bookDirectory, 'contributors.json');
   const timelineFilePath = path.join(bookDirectory, 'timeline.json');
+  const referencesFilePath = path.join(bookDirectory, 'references.json');
 
   const entryMarkdown = fs.readFileSync(entryFilePath, 'utf8');
   const contributors = JSON.parse(fs.readFileSync(contributorsFilePath, 'utf8'));
   const timeline = JSON.parse(fs.readFileSync(timelineFilePath, 'utf8'));
+  const references = JSON.parse(fs.readFileSync(referencesFilePath, 'utf-8'));
 
   return ({
     props: {
@@ -180,6 +182,7 @@ export async function getStaticProps({ params }) {
       entry: entryMarkdown,
       contributors: contributors,
       timeline: timeline,
+      references: references,
     },
   });
 }

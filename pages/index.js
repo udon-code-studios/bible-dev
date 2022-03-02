@@ -73,7 +73,7 @@ export default function Page({ books }) {
         <link rel="icon" href="/bible.png" />
       </Head>
 
-      <body>
+      <main>
         <div className="relative flex flex-col justify-between min-h-screen bg-stone-400 text-stone-900">
 
           {/* header and main content */}
@@ -149,7 +149,7 @@ export default function Page({ books }) {
           <Footer />
           
         </div>
-      </body>
+      </main>
     </>
   )
 }
