@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - task-018-leo
 
 env:
   GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
